@@ -44,7 +44,7 @@ class PyGame(object):
     def splashScreen(self):
         # Converts ticks from milliseconds into seconds
 
-        while pygame.time.get_ticks() < 5:
+        while pygame.time.get_ticks() < 5000:
             self.screen.fill(pygame.Color('skyblue'))
             font = pygame.font.SysFont(pygame.font.get_default_font(), 60, bold = True)
             
@@ -183,8 +183,6 @@ class PyGame(object):
             self.screen.fill((0, 0, 0))
             self.background.fill(pygame.Color('skyblue'))
 
-
-
             self.giant.draw(self.background)
             self.plates.draw(self.background)
             self.foods.draw(self.background)
@@ -198,8 +196,8 @@ class PyGame(object):
             # self.scoreboard.update()
             self.scoreboard.draw(self.screen)
 
-            pygame.display.flip()
-            self.vp[1] += 10
+            pygame.display.flip()            
+            self.vp[1] += 15
 
             self.vp[1] = min(self.vp[1], 0)
 

@@ -1,6 +1,6 @@
 import pygame
 
-HEIGHT = 22
+HEIGHT = 64
 FONT_SIZE = 18
 BG = (218, 218, 218)
 FG = (0, 48, 0)
@@ -48,6 +48,7 @@ class ScoreBoard(pygame.sprite.Group):
         self.scoreboard.image.fill(BG)
         y = 0 if top else screen.get_height() - HEIGHT
         self.scoreboard.rect = self.scoreboard.image.get_rect(topleft=(0, 0))
+        self.add(self.scoreboard)
 
         font = pygame.font.SysFont('Arial', FONT_SIZE, True)
 
@@ -57,7 +58,6 @@ class ScoreBoard(pygame.sprite.Group):
         self.player1 = 0
         self.level1 = 0
         self.lives1 = 'X  X  X'
-
 
         if num_players == 1:
             self.items.add(SBTextItem(font, self.level1, location=(3, 0), prefix='Level: '),
