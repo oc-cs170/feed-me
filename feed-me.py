@@ -4,6 +4,7 @@
 """
 
 import pygame
+import random
 
 WINDOW_TITLE = 'PyGame'
 WINDOW_WIDTH = 800
@@ -19,6 +20,7 @@ class PyGame(object):
         pygame.display.set_caption(WINDOW_TITLE)
 
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.make_background()
 
         # Use a clock to control frame rate
         self.clock = pygame.time.Clock()
