@@ -33,7 +33,7 @@ class PyGame(object):
         self.scoreboard = ScoreBoard(self.screen)
 
         self.hero = pygame.sprite.GroupSingle(Hero(self.background))
-        self.giant = pygame.sprite.GroupSingle(Giant(self.screen))
+        self.giant = pygame.sprite.GroupSingle(Giant(self.background))
         self.plates = pygame.sprite.Group()
         self.foods = pygame.sprite.Group()
         
@@ -79,9 +79,9 @@ class PyGame(object):
         floor.rect = floor.image.get_rect(midbottom=(self.screen.get_width() / 2, self.background.get_height() + 10))
 
         ceiling = pygame.sprite.Sprite()
-        ceiling.image = pygame.Surface((self.screen.get_width(), 16)).convert_alpha()
+        ceiling.image = floor.image.copy()
         ceiling.image.fill(pygame.Color('black'))
-        ceiling.rect = ceiling.image.get_rect(midbottom=(self.screen.get_width() / 2, 200))
+        ceiling.rect = ceiling.image.get_rect(top=self.giant.sprite.rect.bottom)
 
         self.plates.add(floor)
         self.plates.add(ceiling)
@@ -93,7 +93,7 @@ class PyGame(object):
         plate_xloc = self.screen.get_width() / 2
         plate_yloc = self.background.get_height() - 50
                 
-        while plate_yloc > 200:
+        while plate_yloc > ceiling.rect.bottom:
             xlocs = [9999999]
             
             for i in range(random.randint(1, 3)):
@@ -167,8 +167,7 @@ class PyGame(object):
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                         self.hero.sprite.xv = 0
-                    if event.key == pygame.K_UP:
-                        self.hero.sprite.yv = 0
+
                 
             # Is the hero colliding with a plate?
             contact = pygame.sprite.spritecollide(self.hero.sprite, self.plates, False,
@@ -180,7 +179,6 @@ class PyGame(object):
                                                   pygame.sprite.collide_mask)
             if collect:
                 for meal in collect:
-                    print 'here', self.scoreboard.items.sprites()[2].text
                     self.scoreboard.items.sprites()[2].text += meal.points
 
 

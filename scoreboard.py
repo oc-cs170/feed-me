@@ -56,7 +56,7 @@ class ScoreBoard(pygame.sprite.Group):
 
         # Scoreboard values
         self.player1 = 0
-        self.level1 = 0
+        self.level1 = 1
         self.lives1 = 'X  X  X'
 
         if num_players == 1:
