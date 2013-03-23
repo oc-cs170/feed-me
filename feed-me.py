@@ -7,6 +7,7 @@ import pygame
 import random
 from hero import Hero
 from giant import Giant
+from plate import Plate
 
 WINDOW_TITLE = 'PyGame'
 WINDOW_WIDTH = 800
@@ -25,6 +26,7 @@ class PyGame(object):
         self.make_background()
         self.hero = pygame.sprite.GroupSingle(Hero(self.screen))
         self.giant = pygame.sprite.GroupSingle(Giant(self.screen))
+        self.plates = pygame.sprite.GroupSingle(Plate(self.screen))
 
 
         # Use a clock to control frame rate
@@ -95,6 +97,8 @@ class PyGame(object):
             self.screen.fill((0, 0, 0))
             self.screen.blit(self.background, self.vp)
             self.hero.draw(self.screen)
+            self.plates.draw(self.screen)
+
             self.giant.draw(self.background)
 
             pygame.display.flip()
