@@ -10,11 +10,8 @@ from hero import Hero
 from giant import Giant
 from plate import Plate
 from food import Food
-<<<<<<< HEAD
 from scoreboard import ScoreBoard
-=======
-from scoreboard import Scoreboard
->>>>>>> 8c05cd0b2a9291342cb10d9017db31bc9c31edfd
+
 
 WINDOW_TITLE = 'Feed-Me'
 WINDOW_WIDTH = 800
@@ -33,7 +30,7 @@ class PyGame(object):
         self.make_background()
 
 
-        self.scoreboard = Scoreboard(self.screen)
+        self.scoreboard = ScoreBoard(self.screen)
 
         self.hero = pygame.sprite.GroupSingle(Hero(self.background))
         self.giant = pygame.sprite.GroupSingle(Giant(self.screen))
@@ -174,13 +171,6 @@ class PyGame(object):
             self.screen.fill((0, 0, 0))
             self.background.fill(pygame.Color('skyblue'))
 
-<<<<<<< HEAD
-=======
-            # Draw Scoreboard
-            self.scoreboard.update()
-            self.scoreboard.draw(self.background)
-
->>>>>>> 8c05cd0b2a9291342cb10d9017db31bc9c31edfd
             self.giant.draw(self.background)
             self.plates.draw(self.background)
             self.foods.draw(self.background)
@@ -195,14 +185,9 @@ class PyGame(object):
             self.scoreboard.draw(self.screen)
 
             pygame.display.flip()
-<<<<<<< HEAD
             
             self.vp[1] += 15
-=======
 
-            self.vp[1] += 10
-
->>>>>>> 8c05cd0b2a9291342cb10d9017db31bc9c31edfd
             self.vp[1] = min(self.vp[1], 0)
 
 if __name__ == '__main__':
