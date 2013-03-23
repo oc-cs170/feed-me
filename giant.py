@@ -1,6 +1,6 @@
 import pygame
 
-class Giant(object):
+class Giant(pygame.sprite.Sprite):
 	"""docstring for Giant"""
 	def __init__(self, background, png='Planetcute PNG/Enemy Bug.png'):
 		self.background = background
@@ -9,4 +9,4 @@ class Giant(object):
 	
 		# Image place holder for Giant
 		self.image = pygame.image.load(png).convert_alpha()
-		self.rect = self.image.get_rect(topleft=(20, 20))
+		self.rect = self.image.get_rect(topleft=(35, 20))
