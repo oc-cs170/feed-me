@@ -5,6 +5,7 @@
 
 import pygame
 import random
+import math
 from hero import Hero
 from giant import Giant
 from plate import Plate
@@ -37,7 +38,7 @@ class PyGame(object):
     def splashScreen(self):
         # Converts ticks from milliseconds into seconds
 
-        while pygame.time.get_ticks() < 5000:
+        while pygame.time.get_ticks() < 5:
             self.screen.fill(pygame.Color('skyblue'))
             myfont = pygame.font.SysFont(pygame.font.get_default_font(), 30, bold = True)
             label = myfont.render("Feed-ME", 1, (0,0,0))
@@ -55,29 +56,51 @@ class PyGame(object):
         Resets all game-level parameters, and starts a new round.
         """
         floor = pygame.sprite.Sprite()
-        floor.image = pygame.Surface((90, 16)).convert_alpha()
+        floor.image = pygame.Surface((self.screen.get_width(), 16)).convert_alpha()
         floor.image.fill(pygame.Color('green'))
         floor.rect = floor.image.get_rect(midbottom=(self.screen.get_width() / 2, self.background.get_height() + 10))
 
+        ceiling = pygame.sprite.Sprite()
+        ceiling.image = pygame.Surface((self.screen.get_width(), 16)).convert_alpha()
+        ceiling.image.fill(pygame.Color('black'))
+        ceiling.rect = ceiling.image.get_rect(midbottom=(self.screen.get_width() / 2, 200))
+
         self.plates.add(floor)
+        self.plates.add(ceiling)
+
         food_probability = [5, 10, 20, 35, 50, 70]
 
         # self.plates = pygame.sprite.Group()
+        
+        plate_xloc = self.screen.get_width() / 2
         plate_yloc = self.background.get_height() - 50
                 
-        while plate_yloc > 60:
-
-            plate_xloc = (random.randint(0, WINDOW_WIDTH))
-            plate = Plate(self.background, plate_xloc, plate_yloc)
-            self.plates.add(plate)
-            food_check = random.randint(1, 100)
-
-            for i in range(6):
-                if food_check < food_probability[i]:
-                    self.foods.add(Food(i, plate))
-                    break
+        while plate_yloc > 200:
+            xlocs = [9999999]
             
-            plate_yloc -= 40
+            for i in range(random.randint(1, 3)):
+                approved = False
+                while not approved:
+                    new_xloc = random.choice((random.randint(plate_xloc - 240, plate_xloc - 80),
+                                          random.randint(plate_xloc + 80, plate_xloc + 240)))
+                    new_xloc = max(min(new_xloc, self.screen.get_width() - 40), 40)
+
+                    good = [j for j in xlocs if math.fabs(j - new_xloc) > 80]
+                    if len(good) == len(xlocs):
+                        approved = True
+
+                xlocs.append(new_xloc)
+                plate_xloc = new_xloc
+                plate = Plate(self.background, plate_xloc, plate_yloc)
+                self.plates.add(plate)
+
+                food_check = random.randint(1, 100)
+                for i in range(6):
+                    if food_check < food_probability[i]:
+                        self.foods.add(Food(i, plate))
+                        break
+                
+            plate_yloc -= random.randint(40, 120)
 
         self.game_over = False
         self.round = 0
@@ -119,17 +142,21 @@ class PyGame(object):
                         self.hero.sprite.xv = -5
                     if event.key == pygame.K_SPACE:
                         self.hero.sprite.jump = True
+                    # cheat code
+                    if event.key == pygame.K_UP:
+                        self.hero.sprite.yv = -20
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                         self.hero.sprite.xv = 0
+                    if event.key == pygame.K_UP:
+                        self.hero.sprite.yv = 0
                 
             # Is the hero colliding with a plate?
             contact = pygame.sprite.spritecollide(self.hero.sprite, self.plates, False,
                                                   pygame.sprite.collide_mask)
 
             if contact:
-                print contact[0].rect.center
                 self.hero.sprite.plate = contact
             else:
                 self.hero.sprite.plate = contact
@@ -145,7 +172,7 @@ class PyGame(object):
             self.screen.blit(self.background, self.vp)
             pygame.display.flip()
             
-            self.vp[1] += 0
+            self.vp[1] += 10
             self.vp[1] = min(self.vp[1], 0)
 
 if __name__ == '__main__':
