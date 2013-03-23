@@ -21,7 +21,6 @@ Details
  * turkey(30)
  * lettuce(20)
  * chicken(50)
-
  * food meter increses by point value of food. The higher the meter the happier.
  * food meter max = 100pts.
  * each level will have at least 100 points possible.
