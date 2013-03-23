@@ -178,10 +178,10 @@ class PyGame(object):
 
             collect = pygame.sprite.spritecollide(self.hero.sprite, self.foods, True,
                                                   pygame.sprite.collide_mask)
-            if collect:
-                for meal in collect:
-                    print 'here', self.scoreboard.items.sprites()[2].text
-                    self.scoreboard.items.sprites()[2].text += meal.points
+            # if collect:
+            #     for meal in collect:
+                    
+            #         self.scoreboard.items.sprites()[2].text += meal.points
 
 
 

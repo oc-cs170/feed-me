@@ -21,6 +21,27 @@ class SBTextItem(pygame.sprite.Sprite):
         self.image = self.font.render(text, True, FG, BG)
         self.rect = self.image.get_rect(topleft=self.location)
 
+
+class SBImageItem(pygame.sprite.Sprite):
+    def __init__(self, font, image, location=(0,0), prefix=''):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.font= font
+        self.location = location
+        self.prefix = 'Goal: '
+        self.image = image
+        self.rect = image.get_rect(topleft=self.location)
+        self.update()
+
+    def update(self):
+        pass
+    #     self.image = pygame.Surface((80, 16)).convert_alpha()
+    #     self.image.fill((169, 169, 169), (2, 2, 76, 12))
+    #     self.health = self.image.get_rect(topleft=(0, 0))
+        
+
+
+
 class ScoreBoard(pygame.sprite.Group):
     """A Scoreboard class that is aware of pygame.
 
@@ -41,7 +62,7 @@ class ScoreBoard(pygame.sprite.Group):
             top: a boolean, display scoreboard at top or bottom of screen
         """
         pygame.sprite.Group.__init__(self)
-
+        self.image = None
         self.screen = screen
         self.scoreboard = pygame.sprite.Sprite()
         self.scoreboard.image = pygame.Surface((screen.get_width(), HEIGHT))
@@ -58,11 +79,15 @@ class ScoreBoard(pygame.sprite.Group):
         self.player1 = 0
         self.level1 = 0
         self.lives1 = 'X  X  X'
+        self.health = pygame.Surface((80,16))
+        pygame.draw.rect(self.health, (255,255,255), self.health.get_rect())
 
         if num_players == 1:
             self.items.add(SBTextItem(font, self.level1, location=(3, 0), prefix='Level: '),
                            SBTextItem(font, self.lives1, location=(335, 0), prefix='Lives: '),
-                           SBTextItem(font, self.player1, location=(700, 42), prefix='Score: '))
+                           SBTextItem(font, self.player1, location=(700, 42), prefix='Score: '),
+                           SBTextItem(font, 'Goal', location=(640, 0)),
+                           SBImageItem(font, self.health, location=(700, 5), prefix='Goal: '))
 
     def update(self):
         self.items.update()
