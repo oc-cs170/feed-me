@@ -15,15 +15,15 @@ Details
 1. 5 sec screen delay at beginning.
 2. Get 3/4 way up before 5 secs, then screen starts to move.
 3. Food meter:
-	-bread(10)
-	-tomato(20)			
-	-ham(30)			
-	-turkey(30)			
-	-lettuce(20)
-	-chicken(50)
+    -bread(10)
+    -tomato(20)
+    -ham(30)
+    -turkey(30)
+    -lettuce(20)
+    -chicken(50)
 
-*food meter increses by point value of food. The higher the meter the happier
-*food meter max = 100pts
+*food meter increses by point value of food. The higher the meter the happier.
+*food meter max = 100pts.
 *each level will have at least 100 points possible.
 
 
