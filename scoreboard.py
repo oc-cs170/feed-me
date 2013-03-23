@@ -25,7 +25,7 @@ class SBTextItem(pygame.sprite.Sprite):
 class Scoreboard(pygame.sprite.Group):
     """A Scoreboard class that is aware of pygame.
 
-    Keep track of score and lives remaining for 1 or 2 players.
+    Keep track of food meter, height meter, lives remaining for player
     Info is displayed in a screen width rectangle, located at the top
     or bottom of the screen.
 
@@ -52,9 +52,9 @@ class Scoreboard(pygame.sprite.Group):
 
         # Scoreboard values
         self.player1 = 0
-        self.player2 = 0
+       
         self.level1 = 0
-        self.level2 = 0
+        
 
         if num_players == 1:
             self.items.add(SBTextItem(font, self.level1, location=(3, 0), prefix='Level '),
@@ -64,6 +64,6 @@ class Scoreboard(pygame.sprite.Group):
         self.items.update()
         pygame.sprite.Group.update(self)
 
-    def draw(self, screen):
+    def draw(self, surface):
         self.items.draw(self.scoreboard.image)
-        pygame.sprite.Group.draw(self, screen)
+        pygame.sprite.Group.draw(self, surface)

@@ -26,12 +26,14 @@ class PyGame(object):
 
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.make_background()
+
+        self.scoreboard = Scoreboard(self.screen)
+
         self.hero = pygame.sprite.GroupSingle(Hero(self.background))
         self.giant = pygame.sprite.GroupSingle(Giant(self.screen))
         self.plates = pygame.sprite.Group()
         self.foods = pygame.sprite.Group()
-        self.scoreboard = Scoreboard(self.screen)
-
+        
 
         # Use a clock to control frame rate
         self.clock = pygame.time.Clock()
@@ -142,7 +144,7 @@ class PyGame(object):
 
             # Draw Scoreboard
             self.scoreboard.update()
-            self.scoreboard.draw(self.screen)
+            self.scoreboard.draw(self.background)
 
             self.giant.draw(self.background)
             self.plates.draw(self.background)
@@ -153,7 +155,7 @@ class PyGame(object):
             self.screen.blit(self.background, self.vp)
             pygame.display.flip()
             
-            self.vp[1] += 0
+            self.vp[1] += 15
             self.vp[1] = min(self.vp[1], 0)
 
 if __name__ == '__main__':
