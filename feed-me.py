@@ -44,7 +44,7 @@ class PyGame(object):
     def splashScreen(self):
         # Converts ticks from milliseconds into seconds
 
-        while pygame.time.get_ticks() < 5000:
+        while pygame.time.get_ticks() < 5:
             self.screen.fill(pygame.Color('skyblue'))
             font = pygame.font.SysFont(pygame.font.get_default_font(), 60, bold = True)
             
@@ -174,10 +174,16 @@ class PyGame(object):
             contact = pygame.sprite.spritecollide(self.hero.sprite, self.plates, False,
                                                   pygame.sprite.collide_mask)
 
-            if contact:
-                self.hero.sprite.plate = contact
-            else:
-                self.hero.sprite.plate = contact
+            self.hero.sprite.plate = contact
+
+            collect = pygame.sprite.spritecollide(self.hero.sprite, self.foods, True,
+                                                  pygame.sprite.collide_mask)
+            if collect:
+                for meal in collect:
+                    print 'here', self.scoreboard.items.sprites()[2].text
+                    self.scoreboard.items.sprites()[2].text += meal.points
+
+
 
             # Draw the scene
             self.screen.fill((0, 0, 0))
@@ -193,10 +199,13 @@ class PyGame(object):
             self.screen.blit(self.background, self.vp)
 
             # Do the scoreboard
-            # self.scoreboard.update()
+            self.scoreboard.update()
             self.scoreboard.draw(self.screen)
 
-            pygame.display.flip()
+
+            pygame.display.flip()            
+            self.vp[1] += 2
+
 
             self.vp[1] = min(self.vp[1], 0)
 
