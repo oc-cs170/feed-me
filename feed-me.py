@@ -196,8 +196,7 @@ class PyGame(object):
             # self.scoreboard.update()
             self.scoreboard.draw(self.screen)
 
-            pygame.display.flip()            
-            self.vp[1] += 15
+            pygame.display.flip()
 
             self.vp[1] = min(self.vp[1], 0)
 
