@@ -14,3 +14,4 @@ class Plate(pygame.sprite.Sprite):
         self.image = pygame.Surface((PLATE_WIDTH, PLATE_HEIGHT))
         self.image.fill((169, 169, 169), (2, 2, PLATE_WIDTH - 4, PLATE_HEIGHT - 4))
         self.rect = self.image.get_rect(topleft=(x, y))
+
