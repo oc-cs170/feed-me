@@ -4,6 +4,7 @@
 """
 
 import pygame
+import random
 
 WINDOW_TITLE = 'FeedMe'
 WINDOW_WIDTH = 800
@@ -18,9 +19,23 @@ class FeedMe(object):
         pygame.display.set_caption(WINDOW_TITLE)
 
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-
+        self.make_background()
         # Use a clock to control frame rate
         self.clock = pygame.time.Clock()
+
+    def make_background(self):
+        self.background = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT * 5))
+        self.background.fill(pygame.Color('skyblue'))
+
+        for i in range(0, self.background.get_height(), 75):
+            rect = pygame.Rect((0, 0), (50, 50))
+            rect.center = (random.randint(0, WINDOW_WIDTH), i)
+            pygame.draw.rect(self.background, pygame.Color('Black'), rect)
+
+
+        self.vp = [0, -WINDOW_HEIGHT * 4]
+
+
 
     def play(self):
         """Start FeedMe program."""
@@ -36,7 +51,9 @@ class FeedMe(object):
 
             # Draw the scene
             self.screen.fill((0, 0, 0))
+            self.screen.blit(self.background, self.vp)
             pygame.display.flip()
+            self.vp[1] += 1
 
 
 if __name__ == '__main__':
