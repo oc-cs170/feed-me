@@ -74,9 +74,11 @@ class PyGame(object):
             playTime = pygame.time.get_ticks()
             # Converts ticks from milliseconds into seconds
             playTime = playTime * 1000
+            beginning = False
             if playTime < 5:
                 beginning = True
                 splashScreen(beginning)
+
 
 
             # Event handling
@@ -95,3 +97,6 @@ class PyGame(object):
 if __name__ == '__main__':
     game = PyGame()
     game.play()
+
+
+# Merge test!!!
