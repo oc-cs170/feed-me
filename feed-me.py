@@ -92,6 +92,9 @@ class PyGame(object):
             pygame.display.flip()
             
             self.vp[1] += 1
+            # gja;lkdhf;lkhg
+            #;lajkgh;akljfh
+            print "hello"
             # How does merge work JAred
 
 
