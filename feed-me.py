@@ -9,7 +9,7 @@ from hero import Hero
 from giant import Giant
 from plate import Plate
 
-WINDOW_TITLE = 'PyGame'
+WINDOW_TITLE = 'Feed-Me'
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 750
 FPS = 30
@@ -35,9 +35,15 @@ class PyGame(object):
     def splashScreen(self):
         # Converts ticks from milliseconds into seconds
         while pygame.time.get_ticks() < 5000:
-            self.screen.fill(pygame.Color('green'))
-            pygame.display.flip()
+            self.screen.fill(pygame.Color('skyblue'))
+            myfont = pygame.font.SysFont(pygame.font.get_default_font(), 30, bold = True)
+            label = myfont.render("Feed-ME", 1, (0,0,0))
+            width = label.get_width()
+            self.screen.blit(label, (WINDOW_WIDTH /2 - width /2 , 0))
+            label = myfont.render("Text 2", 1, (0,0,0))
+            self.screen.blit(label, (WINDOW_WIDTH /2 - width /2, label.get_height()))
 
+            pygame.display.flip()
 
 
     def new_game(self):
