@@ -62,7 +62,7 @@ class ScoreBoard(pygame.sprite.Group):
         if num_players == 1:
             self.items.add(SBTextItem(font, self.level1, location=(3, 0), prefix='Level: '),
                            SBTextItem(font, self.lives1, location=(335, 0), prefix='Lives: '),
-                           SBTextItem(font, self.player1, location=(710, 42), prefix='Score: '))
+                           SBTextItem(font, self.player1, location=(700, 42), prefix='Score: '))
 
     def update(self):
         self.items.update()
