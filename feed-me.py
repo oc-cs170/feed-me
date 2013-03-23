@@ -9,6 +9,7 @@ from hero import Hero
 from giant import Giant
 from plate import Plate
 from food import Food
+from scoreboard import Scoreboard
 
 WINDOW_TITLE = 'Feed-Me'
 WINDOW_WIDTH = 800
@@ -29,6 +30,7 @@ class PyGame(object):
         self.giant = pygame.sprite.GroupSingle(Giant(self.screen))
         self.plates = pygame.sprite.Group()
         self.foods = pygame.sprite.Group()
+        self.scoreboard = Scoreboard(self.screen)
 
 
         # Use a clock to control frame rate
@@ -137,11 +139,17 @@ class PyGame(object):
             # Draw the scene
             self.screen.fill((0, 0, 0))
             self.background.fill(pygame.Color('skyblue'))
+
+            # Draw Scoreboard
+            self.scoreboard.update()
+            self.scoreboard.draw(self.screen)
+
             self.giant.draw(self.background)
             self.plates.draw(self.background)
             self.foods.draw(self.background)
             self.hero.update()
             self.hero.draw(self.background)
+
             self.screen.blit(self.background, self.vp)
             pygame.display.flip()
             
