@@ -92,7 +92,8 @@ class PyGame(object):
             pygame.display.flip()
             
             self.vp[1] += 1
-            # How does merge work JAred
+
+            print "merge"
 
 
 if __name__ == '__main__':
@@ -100,4 +101,4 @@ if __name__ == '__main__':
     game.play()
 
 
-# Merge test!!!
+
