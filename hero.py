@@ -15,13 +15,21 @@ class Hero(pygame.sprite.Sprite):
 
     def update(self):
         self.yv += .8
+
         if self.plate:
-            self.yv = 5
-            if self.jump == True:
-                self.yv = -15
+            for plate in self.plate:
+                if self.rect.bottom - 32 <= plate.rect.bottom and self.yv >= 0:
+                    print 'here'
+                    self.rect.bottom = plate.rect.top + 35
+                    self.yv = 0
+                    if self.jump == True:
+                        self.yv = -15
+                        self.plate = None
+
         else:
             self.jump = False
 
+        self.yv = min(self.yv, 15)
         self.rect.move_ip(self.xv, self.yv)
         self.rect.right = min(self.rect.right,self.screen.get_width())
         self.rect.left = max(self.rect.left, 0)
