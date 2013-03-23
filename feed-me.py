@@ -45,7 +45,19 @@ class PyGame(object):
         Resets all round-level parameters, increments the round counter, and
         puts the ball on the paddle.
         """
-        self.round += 1    
+        self.round += 1   
+
+    def make_background(self):
+        self.background = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT * 5))
+        self.background.fill(pygame.Color('skyblue'))
+
+        for i in range(0, self.background.get_height(), 75):
+            rect = pygame.Rect((0, 0), (50, 50))
+            rect.center = (random.randint(0, WINDOW_WIDTH), i)
+            pygame.draw.rect(self.background, pygame.Color('Black'), rect)
+
+
+        self.vp = [0, -WINDOW_HEIGHT * 4] 
 
     def play(self):
         """Start PyGame program.
@@ -72,7 +84,10 @@ class PyGame(object):
 
             # Draw the scene
             self.screen.fill((0, 0, 0))
+            self.screen.blit(self.background, self.vp)
             pygame.display.flip()
+            
+            self.vp[1] += 1
 
 
 if __name__ == '__main__':
