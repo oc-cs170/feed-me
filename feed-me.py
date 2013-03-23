@@ -39,14 +39,26 @@ class PyGame(object):
 
         while pygame.time.get_ticks() < 5000:
             self.screen.fill(pygame.Color('skyblue'))
-            myfont = pygame.font.SysFont(pygame.font.get_default_font(), 80, bold = True)
-            label = myfont.render("Feed-ME", 1, (0,0,0))
-            width = label.get_width()
-            self.screen.blit(label, (WINDOW_WIDTH /2 - width /2 , 0))
-            label = myfont.render("Text 2", 1, (0,0,0))
-            self.screen.blit(label, (WINDOW_WIDTH /2 - width /2, label.get_height()))
+            font = pygame.font.SysFont(pygame.font.get_default_font(), 60, bold = True)
+            
+            lines = ["Feed-Me",
+                     "",
+                     "",
+                     "Move: Right and Left Arrows",
+                     "Space: Jump"
+                    ]
+            
+            for i in range(5):
+                x = lines[i]
+                label = font.render(x, 1, (0,0,0))
+                width = label.get_width()
+                self.screen.blit(label, (WINDOW_WIDTH /2 - width /2, i*50))
+
 
             pygame.display.flip()
+
+
+
 
 
     def new_game(self):
