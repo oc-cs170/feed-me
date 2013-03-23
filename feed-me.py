@@ -93,7 +93,14 @@ class PyGame(object):
             
             self.vp[1] += 1
 
+
             print "merge"
+
+            # gja;lkdhf;lkhg
+            #;lajkgh;akljfh
+            print "hello"
+            # How does merge work JAred
+
 
 
 if __name__ == '__main__':
