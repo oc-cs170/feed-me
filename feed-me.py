@@ -5,10 +5,12 @@
 
 import pygame
 import random
+from hero import Hero
+from giant import Giant
 
 WINDOW_TITLE = 'PyGame'
 WINDOW_WIDTH = 800
-WINDOW_HEIGHT = 950
+WINDOW_HEIGHT = 750
 FPS = 30
 
 
@@ -21,6 +23,9 @@ class PyGame(object):
 
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.make_background()
+        self.hero = pygame.sprite.GroupSingle(Hero(self.screen))
+        self.giant = pygame.sprite.GroupSingle(Giant(self.screen))
+
 
         # Use a clock to control frame rate
         self.clock = pygame.time.Clock()
@@ -89,17 +94,12 @@ class PyGame(object):
             # Draw the scene
             self.screen.fill((0, 0, 0))
             self.screen.blit(self.background, self.vp)
+            self.hero.draw(self.screen)
+            self.giant.draw(self.background)
+
             pygame.display.flip()
             
-            self.vp[1] += 1
-
-
-            print "merge"
-
-            # gja;lkdhf;lkhg
-            #;lajkgh;akljfh
-            print "hello"
-            # How does merge work JAred
+            self.vp[1] += 15
 
 
 
