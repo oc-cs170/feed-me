@@ -32,11 +32,12 @@ class PyGame(object):
         # Use a clock to control frame rate
         self.clock = pygame.time.Clock()
 
-    def splashScreen(beginning):
-        if beginning == True:
-            #Show the screen
-            self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-            self.background.fill(pygame.Color('green'))
+    def splashScreen(self):
+        # Converts ticks from milliseconds into seconds
+        while pygame.time.get_ticks() < 5000:
+            self.screen.fill(pygame.Color('green'))
+            pygame.display.flip()
+
 
 
     def new_game(self):
@@ -72,21 +73,12 @@ class PyGame(object):
     def play(self):
         """Start PyGame program.
         """
-
+        self.splashScreen()
         running = True
         while running:
             self.clock.tick(FPS)  # Max frames per second
             
             """ This area controls when to display splashScreen at the beginning"""
-            # Grabs time since Pygame init
-            playTime = pygame.time.get_ticks()
-            # Converts ticks from milliseconds into seconds
-            playTime = playTime * 1000
-            beginning = False
-            if playTime < 5:
-                beginning = True
-                splashScreen(beginning)
-
 
 
             # Event handling
