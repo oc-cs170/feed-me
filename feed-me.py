@@ -27,8 +27,25 @@ class PyGame(object):
         if beginning == True:
             #Show the screen
             self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-            
-    
+
+
+    def new_game(self):
+        """Start a new game of Breakout.
+
+        Resets all game-level parameters, and starts a new round.
+        """
+        self.game_over = False
+        self.round = 0
+
+        self.new_round()
+
+    def new_round(self):
+        """Start a new round in a Breakout game.
+
+        Resets all round-level parameters, increments the round counter, and
+        puts the ball on the paddle.
+        """
+        self.round += 1    
 
     def play(self):
         """Start PyGame program.
@@ -37,6 +54,16 @@ class PyGame(object):
         running = True
         while running:
             self.clock.tick(FPS)  # Max frames per second
+            
+            """ This area controls when to display splashScreen at the beginning"""
+            # Grabs time since Pygame init
+            playTime = pygame.time.get_ticks()
+            # Converts ticks from milliseconds into seconds
+            playTime = playTime * 1000
+            if playTime < 5:
+                beginning = True
+                splashScreen(beginning)
+
 
             # Event handling
             for event in pygame.event.get():
