@@ -84,11 +84,10 @@ class PyGame(object):
     def play(self):
         """Start PyGame program.
         """
-<<<<<<< HEAD
+
         self.new_game()
-=======
+
         self.splashScreen()
->>>>>>> f6762cadd273711a79b1cd0718d81aaa0861076d
         running = True
         while running:
             self.clock.tick(FPS)  # Max frames per second
