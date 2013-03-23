@@ -19,7 +19,6 @@ class Hero(pygame.sprite.Sprite):
         if self.plate:
             for plate in self.plate:
                 if self.rect.bottom - 32 <= plate.rect.bottom and self.yv >= 0:
-                    print 'here'
                     self.rect.bottom = plate.rect.top + 35
                     self.yv = 0
                     if self.jump == True:
@@ -31,7 +30,7 @@ class Hero(pygame.sprite.Sprite):
 
         self.yv = min(self.yv, 15)
         self.rect.move_ip(self.xv, self.yv)
-        self.rect.right = min(self.rect.right,self.screen.get_width())
-        self.rect.left = max(self.rect.left, 0)
+        self.rect.centerx = max(0, min(self.rect.centerx,self.screen.get_width()))
+        
 
 

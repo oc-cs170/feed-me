@@ -1,11 +1,9 @@
 import pygame
 
-
-HEIGHT = 62
+HEIGHT = 22
 FONT_SIZE = 18
 BG = (218, 218, 218)
-FG = (0, 0, 0)
-
+FG = (0, 48, 0)
 
 class SBTextItem(pygame.sprite.Sprite):
     def __init__(self, font, text, location=(0, 0), prefix='', suffix=''):
@@ -23,7 +21,6 @@ class SBTextItem(pygame.sprite.Sprite):
         self.image = self.font.render(text, True, FG, BG)
         self.rect = self.image.get_rect(topleft=self.location)
 
-
 class ScoreBoard(pygame.sprite.Group):
     """A Scoreboard class that is aware of pygame.
 
@@ -33,13 +30,9 @@ class ScoreBoard(pygame.sprite.Group):
 
     Format: (1 player)
     [Level 001                                           O O O   Score: 000001]
-
-    Format: (2 players)
-    [Player 1: 000001 Level 001   O O O     O O O   Player 2: 000001 Level 001]
     """
     def __init__(self, screen, icon=None, num_players=1, top=True):
         """Create a Scoreboard object.
-
         Args:
             screen: a surface, where the scoreboard will be displayed
             icon: a surface, an image of the player, used to display lives
@@ -55,7 +48,6 @@ class ScoreBoard(pygame.sprite.Group):
         self.scoreboard.image.fill(BG)
         y = 0 if top else screen.get_height() - HEIGHT
         self.scoreboard.rect = self.scoreboard.image.get_rect(topleft=(0, 0))
-        self.add(self.scoreboard)
 
         font = pygame.font.SysFont('Arial', FONT_SIZE, True)
 
@@ -79,5 +71,3 @@ class ScoreBoard(pygame.sprite.Group):
     def draw(self, surface):
         self.items.draw(self.scoreboard.image)
         pygame.sprite.Group.draw(self, surface)
-
-        
