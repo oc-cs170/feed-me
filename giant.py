@@ -2,7 +2,7 @@ import pygame
 
 class Giant(pygame.sprite.Sprite):
 	"""docstring for Giant"""
-	def __init__(self, background, png='Planetcute PNG/Enemy Bug.png'):
+	def __init__(self, background, png='PlanetCute PNG/Enemy Bug.png'):
 		self.background = background
 		#Initialize Sprite
 		pygame.sprite.Sprite.__init__(self)
