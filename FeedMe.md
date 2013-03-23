@@ -25,6 +25,7 @@ Details
  * food meter max = 100pts.
  * each level will have at least 100 points possible.
 
+
 4. If you die you restart at the level you are at.
 5. When giant is reached, move onto next level if and only if food meter is 100% full.
 6. If giant is reached and food meter isn't full then you lose and are eaten by giant.
