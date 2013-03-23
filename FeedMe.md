@@ -22,10 +22,17 @@ Details
 	-lettuce(20)
 	-chicken(50)
 
-4. If you die, restart at bottom and metor remians at the spot where you died.
-	(Retain points until 3 lives up)
+4. If you die you restart at the level you are at.
 5. When giant is reached, move onto next level if and only if food metor is 100% full.
 6. If giant is reached and food metor isn't full then you lose and are eaten by giant.
+7. Fixed height once you are within the giant screen stops scrolling.
+8. Start on the ground/grass screen starts moving when you want to move to the platform. Once you reach
+first platform screen starts moving.
+9. You are required to jump and stear at the same time (like Mario).
+10. Line meter on side of the screen to show where you are at respect to the giant.
+11. Each level is randomized. 
+12. Background is different to show differences between level and level titles. Change color of plates.
+13. Some plates break, bounce, float/move. Level 3 Wind gusts. 
 
 Play by Play
 ------------
