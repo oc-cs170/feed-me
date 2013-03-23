@@ -5,3 +5,5 @@ class Plate(pygame.sprite.Sprite):
     def __init__(self, arg):
         pygame.sprite.Sprite.__init__(self)
         self.arg = arg
+
+

@@ -73,34 +73,36 @@ class PyGame(object):
         running = True
         while running:
             self.clock.tick(FPS)  # Max frames per second
-            
-            """ This area controls when to display splashScreen at the beginning"""
-            # Grabs time since Pygame init
-            playTime = pygame.time.get_ticks()
-            # Converts ticks from milliseconds into seconds
-            playTime = playTime * 1000
-            beginning = False
-            if playTime < 5:
-                beginning = True
-                splashScreen(beginning)
-
-
 
             # Event handling
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
                     running = False
 
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RIGHT:
+                        self.hero.sprite.xv = 5
+                    if event.key == pygame.K_LEFT:
+                        self.hero.sprite.xv = -5
+                    if event.key == pygame.K_SPACE:
+                        self.hero.sprite.jump = True
+
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
+                        self.hero.sprite.xv = 0
+                
+
             # Draw the scene
             self.screen.fill((0, 0, 0))
             self.screen.blit(self.background, self.vp)
             self.hero.draw(self.screen)
+            self.hero.update()
             self.giant.draw(self.background)
 
             pygame.display.flip()
             
             self.vp[1] += 15
-
+            self.vp[1] = min(self.vp[1], 0)
 
 
 if __name__ == '__main__':
