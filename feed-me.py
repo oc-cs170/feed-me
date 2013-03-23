@@ -10,6 +10,7 @@ from hero import Hero
 from giant import Giant
 from plate import Plate
 from food import Food
+from scoreboard import Scoreboard
 
 WINDOW_TITLE = 'Feed-Me'
 WINDOW_WIDTH = 800
@@ -26,11 +27,14 @@ class PyGame(object):
 
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.make_background()
+
+        self.scoreboard = Scoreboard(self.screen)
+
         self.hero = pygame.sprite.GroupSingle(Hero(self.background))
         self.giant = pygame.sprite.GroupSingle(Giant(self.screen))
         self.plates = pygame.sprite.Group()
         self.foods = pygame.sprite.Group()
-
+        
 
         # Use a clock to control frame rate
         self.clock = pygame.time.Clock()
@@ -40,7 +44,7 @@ class PyGame(object):
 
         while pygame.time.get_ticks() < 5:
             self.screen.fill(pygame.Color('skyblue'))
-            myfont = pygame.font.SysFont(pygame.font.get_default_font(), 30, bold = True)
+            myfont = pygame.font.SysFont(pygame.font.get_default_font(), 80, bold = True)
             label = myfont.render("Feed-ME", 1, (0,0,0))
             width = label.get_width()
             self.screen.blit(label, (WINDOW_WIDTH /2 - width /2 , 0))
@@ -164,15 +168,22 @@ class PyGame(object):
             # Draw the scene
             self.screen.fill((0, 0, 0))
             self.background.fill(pygame.Color('skyblue'))
+
+            # Draw Scoreboard
+            self.scoreboard.update()
+            self.scoreboard.draw(self.background)
+
             self.giant.draw(self.background)
             self.plates.draw(self.background)
             self.foods.draw(self.background)
             self.hero.update()
             self.hero.draw(self.background)
+
             self.screen.blit(self.background, self.vp)
             pygame.display.flip()
-            
+
             self.vp[1] += 10
+
             self.vp[1] = min(self.vp[1], 0)
 
 if __name__ == '__main__':
