@@ -41,7 +41,7 @@ class PyGame(object):
 
         while pygame.time.get_ticks() < 5000:
             self.screen.fill(pygame.Color('skyblue'))
-            myfont = pygame.font.SysFont(pygame.font.get_default_font(), 30, bold = True)
+            myfont = pygame.font.SysFont(pygame.font.get_default_font(), 80, bold = True)
             label = myfont.render("Feed-ME", 1, (0,0,0))
             width = label.get_width()
             self.screen.blit(label, (WINDOW_WIDTH /2 - width /2 , 0))
