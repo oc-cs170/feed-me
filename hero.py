@@ -7,4 +7,5 @@ class Hero(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(png).convert_alpha()
         self.rect = self.image.get_rect(midbottom=(self.screen.get_width() / 2, self.screen.get_height()))
+        
 

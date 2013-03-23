@@ -34,6 +34,7 @@ class PyGame(object):
         if beginning == True:
             #Show the screen
             self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+            self.background.fill(pygame.Color('green'))
 
 
     def new_game(self):
