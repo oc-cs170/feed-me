@@ -92,6 +92,7 @@ class PyGame(object):
             pygame.display.flip()
             
             self.vp[1] += 1
+            # How does merge work
 
 
 if __name__ == '__main__':
