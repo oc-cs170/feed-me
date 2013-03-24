@@ -74,13 +74,13 @@ class PyGame(object):
         Resets all game-level parameters, and starts a new round.
         """
         floor = pygame.sprite.Sprite()
-        floor.image = pygame.Surface((self.screen.get_width(), 16)).convert_alpha()
-        floor.image.fill(pygame.Color('green'))
+        floor.image = pygame.Surface((self.screen.get_width(), 19)).convert_alpha()
+        floor.image.fill(pygame.Color('#008000'))
         floor.rect = floor.image.get_rect(midbottom=(self.screen.get_width() / 2, self.background.get_height() + 10))
 
         ceiling = pygame.sprite.Sprite()
         ceiling.image = pygame.Surface((self.screen.get_width(), 16)).convert_alpha()
-        ceiling.image.fill(pygame.Color('black'))
+        ceiling.image.fill(pygame.Color('#2f4f4f'))
         ceiling.rect = ceiling.image.get_rect(midbottom=(self.screen.get_width() / 2, 200))
 
         self.plates.add(floor)
@@ -178,16 +178,17 @@ class PyGame(object):
 
             collect = pygame.sprite.spritecollide(self.hero.sprite, self.foods, True,
                                                   pygame.sprite.collide_mask)
+            
             # if collect:
             #     for meal in collect:
-                    
+
             #         self.scoreboard.items.sprites()[2].text += meal.points
 
 
 
             # Draw the scene
             self.screen.fill((0, 0, 0))
-            self.background.fill(pygame.Color('skyblue'))
+            self.background.fill(pygame.Color('#87CEFA'))
 
             self.giant.draw(self.background)
             self.plates.draw(self.background)
@@ -204,7 +205,7 @@ class PyGame(object):
 
 
             pygame.display.flip()            
-            self.vp[1] += 2
+            self.vp[1] += 0
 
 
             self.vp[1] = min(self.vp[1], 0)

@@ -1,9 +1,9 @@
 import pygame
 
-HEIGHT = 64
+HEIGHT = 48
 FONT_SIZE = 18
-BG = (218, 218, 218)
-FG = (0, 48, 0)
+BG = (211, 211, 211)
+FG = (0, 0, 0)
 
 class SBTextItem(pygame.sprite.Sprite):
     def __init__(self, font, text, location=(0, 0), prefix='', suffix=''):
@@ -28,9 +28,15 @@ class SBImageItem(pygame.sprite.Sprite):
 
         self.font= font
         self.location = location
-        self.prefix = 'Goal: '
+        self.prefix = prefix
         self.image = image
         self.rect = image.get_rect(topleft=self.location)
+
+        # # Hero chareacter
+        # self.image = pygame.image.load('PlanetCute PNG/Character Cat Girl.png').convert_alpha()
+        # self.rect = self.image.get_rect(topleft=(self.location))
+
+
         self.update()
 
     def update(self):
@@ -79,15 +85,22 @@ class ScoreBoard(pygame.sprite.Group):
         self.player1 = 0
         self.level1 = 0
         self.lives1 = 'X  X  X'
-        self.health = pygame.Surface((80,16))
-        pygame.draw.rect(self.health, (255,255,255), self.health.get_rect())
+        
+        self.health = pygame.Surface((100, 16))
+        pygame.draw.rect(self.health, (255, 255, 255), self.health.get_rect())
+        
+        image = pygame.image.load('PlanetCute PNG/Character Cat Girl.png').convert_alpha()
+        self.hero = pygame.transform.scale(image, (40, 65))
 
         if num_players == 1:
             self.items.add(SBTextItem(font, self.level1, location=(3, 0), prefix='Level: '),
-                           SBTextItem(font, self.lives1, location=(335, 0), prefix='Lives: '),
-                           SBTextItem(font, self.player1, location=(700, 42), prefix='Score: '),
-                           SBTextItem(font, 'Goal', location=(640, 0)),
-                           SBImageItem(font, self.health, location=(700, 5), prefix='Goal: '))
+                           SBTextItem(font, 'Lives: ', location=(280, 12)),
+                           SBTextItem(font, self.player1, location=(700, 24), prefix='Score: '),
+                           SBTextItem(font, 'Goal: ', location=(640, 3)),
+                           SBImageItem(font, self.health, location=(690, 5), prefix='Goal: '),
+                           SBImageItem(font, self.hero, location=(335, -15)),
+                           SBImageItem(font, self.hero, location=(365, -15)),
+                           SBImageItem(font, self.hero, location=(395, -15)))
 
     def update(self):
         self.items.update()
