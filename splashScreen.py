@@ -68,15 +68,15 @@ class SplashScreen():
             y += surf.get_height()
             pygame.display.flip()
 
-        waiting = True
-        while waiting:           # Pause loop
+
+        while True:           # Pause loop
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
-                        waiting = False
-                    if event.key == pygame.K_q:
-                        self.game_over = True
-                    break
+                        return True
+                    if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
+                        return False
+
     def dead(self):
         # Build the splash screen
         self.title = 'YOU DIED'

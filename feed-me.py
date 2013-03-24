@@ -140,9 +140,9 @@ class PyGame(object):
     def play(self):
         """Start PyGame program.
         """
-        self.splashscreen.draw()
+        running = self.splashscreen.draw()
         self.new_game()
-        running = True
+        
         while running:
             self.clock.tick(FPS)  # Max frames per second
 
@@ -159,8 +159,8 @@ class PyGame(object):
                     if event.key == pygame.K_SPACE:
                         self.hero.sprite.jump = True
                     # cheat code
-                    if event.key == pygame.K_UP:
-                        self.hero.sprite.yv = -20
+                    # if event.key == pygame.K_UP:
+                    #     self.hero.sprite.yv = -20
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
