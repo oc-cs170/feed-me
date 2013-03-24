@@ -11,7 +11,7 @@ from giant import Giant
 from plate import Plate
 from food import Food
 from scoreboard import ScoreBoard
-from splashScreen import splashScreen
+from splashScreen import SplashScreen
 
 
 WINDOW_TITLE = 'Feed-Me'
@@ -32,6 +32,8 @@ class PyGame(object):
 
 
         self.scoreboard = ScoreBoard(self.screen)
+        self.splashscreen = SplashScreen()
+
 
         self.hero = pygame.sprite.GroupSingle(Hero(self.background))
         self.giant = pygame.sprite.GroupSingle(Giant(self.background))
@@ -123,9 +125,8 @@ class PyGame(object):
     def play(self):
         """Start PyGame program.
         """
-
+        self.splashscreen.draw()
         self.new_game()
-        splashScreen(self.screen).intro_splash()
         running = True
         while running:
             self.clock.tick(FPS)  # Max frames per second
