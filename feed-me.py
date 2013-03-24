@@ -11,6 +11,7 @@ from giant import Giant
 from plate import Plate
 from food import Food
 from scoreboard import ScoreBoard
+from splashScreen import splashScreen
 
 
 WINDOW_TITLE = 'Feed-Me'
@@ -45,32 +46,6 @@ class PyGame(object):
 
         # Use a clock to control frame rate
         self.clock = pygame.time.Clock()
-
-    def splashScreen(self):
-        while pygame.time.get_ticks() < 5:
-
-            self.screen.fill(pygame.Color('skyblue'))
-            font = pygame.font.SysFont(pygame.font.get_default_font(), 60, bold = True)
-            
-            lines = ["Feed-Me",
-                     "",
-                     "",
-                     "Move: Right and Left Arrows",
-                     "Space: Jump"
-                    ]
-
-            for i in range(5):
-                x = lines[i]
-                label = font.render(x, 1, (0,0,0))
-                width = label.get_width()
-                self.screen.blit(label, (WINDOW_WIDTH /2 - width /2, i*50))
-
-
-            pygame.display.flip()
-
-
-
-
 
     def new_game(self):
         """Start a new game of Breakout.
@@ -149,7 +124,7 @@ class PyGame(object):
         """
 
         self.new_game()
-        self.splashScreen()
+        splashScreen(self.screen).intro_splash()
         running = True
         while running:
             self.clock.tick(FPS)  # Max frames per second
