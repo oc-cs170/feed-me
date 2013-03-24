@@ -80,6 +80,7 @@ class SplashScreen():
 
 
         while True:           # Pause loop
+            return True
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:

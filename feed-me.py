@@ -80,8 +80,6 @@ class PyGame(object):
         Resets all game-level parameters, and starts a new round.
         """
 
-        self.scrollspeed = 0
-
         floor = pygame.sprite.Sprite()
         floor.image = pygame.Surface((self.screen_width, 19)).convert_alpha()
         floor.image.fill(pygame.Color('#008000'))
@@ -96,17 +94,26 @@ class PyGame(object):
         self.plates.add(floor)
         self.plates.add(ceiling)
 
+        self.distance = self.hero.sprite.rect.y - self.giant.sprite.rect.y
+
+        # self.plates = pygame.sprite.Group()
+
+        self.new_level()
+
+    def new_level(self):
+        """Start a new round in a Breakout game.
+
+        Resets all round-level parameters, increments the round counter, and
+        puts the ball on the paddle.
+        """
         food_probability = [5, 10, 20, 35, 50, 70]
 
-        self.distance = self.hero.sprite.rect.y - self.giant.sprite.rect.y
-        # self.plates = pygame.sprite.Group()
-        
+        # Plate generation
         plate_xloc = self.screen_width / 2
         plate_yloc = self.background_height - 50
-                
-        while plate_yloc > ceiling.rect.bottom:
+
+        while plate_yloc > self.giant.sprite.rect.bottom:
             xlocs = [9999999]
-            
             for i in range(random.randint(1, 3)):
                 approved = False
                 while not approved:
@@ -132,23 +139,34 @@ class PyGame(object):
             plate_yloc -= random.randint(40, 120)
 
         self.high_score = sum(food.points for food in self.foods.sprites())
-        self.round = 0
-        self.new_round()
 
-    def new_round(self):
-        """Start a new round in a Breakout game.
-
-        Resets all round-level parameters, increments the round counter, and
-        puts the ball on the paddle.
-        """
-        self.round += 1
+        self.level_score = 0
+        self.lives = -1
+        self.new_life()
+        
+    def new_life(self):
+        self.scrollspeed = 0
         self.vp = [0, -WINDOW_HEIGHT * 4]
         self.hero.sprite.rect.midbottom = (self.background_width / 2, self.background_height)
+        self.lives += 1
+
+    def died(self):
+        self.splashscreen.dead()
+        if self.lives > 2:
+            self.splashscreen.game_over()
+        else:
+            self.scoreboard.items.remove(self.icons[self.lives])
+            self.new_life()
+
+    def end(self):
+        self.splashscreen.end_level()
+        self.new_level()
 
     def make_background(self):
         self.background = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT * 5))
         self.background_width, self.background_height = self.background.get_size()
         self.background.fill(pygame.Color('skyblue'))
+
 
 
     def play(self):
@@ -166,9 +184,9 @@ class PyGame(object):
                     running = False
 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RIGHT:
+                    if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                         self.hero.sprite.xv = 5
-                    if event.key == pygame.K_LEFT:
+                    if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                         self.hero.sprite.xv = -5
                     if event.key == pygame.K_SPACE:
                         self.hero.sprite.jump = True
@@ -176,11 +194,11 @@ class PyGame(object):
                         self.bounce.play(loops=0, maxtime=0, fade_ms=0)
 
                     # cheat code
-                    # if event.key == pygame.K_UP:
-                    #     self.hero.sprite.yv = -20
+                    if event.key == pygame.K_UP:
+                        self.hero.sprite.yv = -20
 
                 if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
+                    if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT or event.key == pygame.K_d or event.key == pygame.K_a:
                         self.hero.sprite.xv = 0
 
 
@@ -198,6 +216,9 @@ class PyGame(object):
             if collect:
                 for meal in collect:
                     self.score.text += meal.points
+                    self.level_score += meal.points
+                    self.goalbar.image = pygame.Surface((min(self.level_score * 100 / (self.high_score*.75), 100), 16))
+                    self.goalbar.image.fill((255, 0, 0))
                     self.chew.play(loops=0, maxtime=1500, fade_ms=0)
                     self.chew.set_volume(1.0)
 
@@ -208,11 +229,8 @@ class PyGame(object):
 
             # If you die
             if self.hero.sprite.rect.centery - -self.vp[1] > self.screen_height:
-               
-                self.splashscreen.dead()
-                self.scrollspeed = 0
-                self.scoreboard.items.remove(self.icons[self.round - 1])
-                self.new_round()
+                self.dead()
+                
                
 
             # Draw the scene
@@ -231,8 +249,6 @@ class PyGame(object):
             # Do the scoreboard
 
             self.p_hero.rect.x = -12 + (((self.background_height - self.hero.sprite.rect.y) * self.progress_bar.rect.width) / self.distance)
-            self.goalbar.image = pygame.Surface(((self.score.text * 100 / (self.high_score * .75)), 16))
-            self.goalbar.image.fill((255, 0, 0))
             self.scoreboard.update()
             self.scoreboard.draw(self.screen)
 
@@ -240,9 +256,7 @@ class PyGame(object):
             self.vp[1] += self.scrollspeed
             self.vp[1] = min(self.vp[1], 0)
 
+
 if __name__ == '__main__':
     game = PyGame()
     game.play()
-
-
-
