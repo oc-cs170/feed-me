@@ -205,8 +205,8 @@ class PyGame(object):
                         self.hero.sprite.jump = True
                         self.bounce.play(loops=0, maxtime=0, fade_ms=0)
                     # cheat code
-                    if event.key == pygame.K_UP:
-                        self.hero.sprite.yv = -20
+                    # if event.key == pygame.K_UP:
+                    #     self.hero.sprite.yv = -20
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT or event.key == pygame.K_d or event.key == pygame.K_a:
