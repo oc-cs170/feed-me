@@ -25,8 +25,11 @@ class SplashScreen():
 
         self.bsound = pygame.mixer.Sound('sounds/bsound.ogg')
         self.die = pygame.mixer.Sound('sounds/die.ogg')
+        self.elvlsound = pygame.mixer.Sound('sounds/small pin.wav')
+        self.egamesound = pygame.mixer.Sound('sounds/small pin.wav')
         self.bsound.set_volume(.2)
         self.bsound.play()
+
        
 
     def draw(self):
@@ -183,6 +186,10 @@ class SplashScreen():
 
 
     def end_level(self):
+        self.bsound.stop()
+        self.egamesound.play(loops=0, maxtime=7000, fade_ms= 0)
+        self.egamesound.set_volume(1.0)
+
         title = 'CONGRATULATIONS!'
         self.splash = self.screen.copy()
         # self.splash = (0 , 0, self.screen_width / 2, self.screen_height / 2)
@@ -222,10 +229,16 @@ class SplashScreen():
 
         pygame.display.flip()
         pygame.time.wait(5000)
+        self.bsound.play()
 
 
     def game_over(self):
         # Build the splash screen
+        
+        self.bsound.stop()
+        self.egamesound.play(loops=0, maxtime=7000, fade_ms= 0)
+        self.egamesound.set_volume(1.0)
+
         title = 'GAME OVER'
         self.splash = self.screen.copy()
         self.splash.fill((65, 105, 225))
@@ -244,7 +257,9 @@ class SplashScreen():
             self.screen.blit(self.splash, (0, 0))
             surf = font1.render(title[0:i + 1], antialias, self.fg, self.bg)
             self.screen.blit(surf, (x, y))
-            pygame.display.flip()
+        
+        pygame.display.flip()
 
         pygame.time.wait(5000)
+        self.bsound.play()
 
