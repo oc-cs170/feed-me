@@ -2,19 +2,17 @@ import pygame
 
 class Hero(pygame.sprite.Sprite):
     """docstring for Hero"""
+    xv = 0
+    yv = 0
     def __init__(self, screen, png='PlanetCute PNG/Character Cat Girl.png'):
         self.screen_width, self.screen_height = screen.get_size()
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(png).convert_alpha()
         self.rect = self.image.get_rect(midbottom=(self.screen_width / 2, self.screen_height))
         self.plate = None
-
-        self.xv = 0
-        self.yv = 0
         self.jump = False
-
     def update(self):
-        self.yv += .8
+        self.yv += 1
 
         if self.plate:
             for plate in self.plate:

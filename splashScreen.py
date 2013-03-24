@@ -25,8 +25,11 @@ class SplashScreen():
 
         self.bsound = pygame.mixer.Sound('sounds/bsound.ogg')
         self.die = pygame.mixer.Sound('sounds/die.ogg')
-        self.elvlsound = pygame.mixer.Sound('sounds/small pin.wav')
+        # self.elvlsound = pygame.mixer.Sound('sounds/small pin.wav')
         self.egamesound = pygame.mixer.Sound('sounds/small pin.wav')
+
+        self.sounds = [self.die, self.egamesound]
+        
         self.bsound.set_volume(.2)
         self.bsound.play()
         self.messages = [['YOU DIED', 'Please wait', 'to try again!', ' ', "Note: Don't fall below the screen!"],
@@ -75,7 +78,6 @@ class SplashScreen():
                  '      lemon (worth 20 points)',
                  '      eggplant (worth 10 points)',
                  ' ',
-                 ' ',
                  'Press enter to start...',
                  ' ',
                  'Press q or escape to quit.']
@@ -99,8 +101,8 @@ class SplashScreen():
         # Build the splash screen
 
         self.bsound.stop()
-        self.die.play(loops=0, maxtime=0, fade_ms= 0)
-        self.die.set_volume(1.0)
+        # self.die.play(loops=0, maxtime=0, fade_ms= 0)
+        # self.die.set_volume(1.0)
         
         title = self.messages[message][0]
         self.splash = self.screen.copy()
@@ -108,11 +110,21 @@ class SplashScreen():
         self.inner = (BORDER, BORDER, self.screen_width - 2 * BORDER, self.screen_height - 2 * BORDER)
         self.splash.fill(self.bg, self.inner)
 
-        font1 = pygame.font.SysFont('Arial', 80, bold=True)
+        font1 = pygame.font.SysFont('Arial', 70, bold=True)
         antialias = True
         width, height = font1.size(title)
         x = ((self.screen_width - width) / 2)
         y = 2 * BORDER
+
+        if message == 1 or message == 0:
+            self.sounds[0].play()
+            
+        if message == 2:
+            self.sounds[1].play(maxtime=7500)
+            print 'test'
+            
+            # self.elvlsound.set_volume(1.
+        # self.sounds[0].stop()
 
         for i in range(len(title)):
             self.clock.tick(4)
