@@ -189,7 +189,6 @@ class PyGame(object):
         """
         
         self.new_game()
-        
         while self.running:
             self.clock.tick(FPS)  # Max frames per second
 
@@ -197,16 +196,14 @@ class PyGame(object):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
                     self.running = False
-
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                        self.hero.sprite.xv = 5
+                        self.hero.sprite.xv = 6
                     if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                        self.hero.sprite.xv = -5
-                    if event.key == pygame.K_SPACE:
+                        self.hero.sprite.xv = -6
+                    if event.key == pygame.K_SPACE :
                         self.hero.sprite.jump = True
                         self.bounce.play(loops=0, maxtime=0, fade_ms=0)
-
                     # cheat code
                     if event.key == pygame.K_UP:
                         self.hero.sprite.yv = -20
