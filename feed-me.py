@@ -28,6 +28,7 @@ class PyGame(object):
         pygame.display.set_caption(WINDOW_TITLE)
 
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.screen_width, self.screen_height = self.screen.get_size()
         self.make_background()
 
 
@@ -47,6 +48,11 @@ class PyGame(object):
                 self.level = instance
             elif instance.prefix == 'icon':
                 self.icons.append(instance)
+            elif instance.prefix == 'progress':
+                self.progress_bar = instance
+            elif instance.prefix == 'p_hero':
+                self.p_hero = instance
+
 
         # Use a clock to control frame rate
         self.clock = pygame.time.Clock()
@@ -59,9 +65,9 @@ class PyGame(object):
         self.scrollspeed = 0
 
         floor = pygame.sprite.Sprite()
-        floor.image = pygame.Surface((self.screen.get_width(), 19)).convert_alpha()
+        floor.image = pygame.Surface((self.screen_width, 19)).convert_alpha()
         floor.image.fill(pygame.Color('#008000'))
-        floor.rect = floor.image.get_rect(midbottom=(self.screen.get_width() / 2, self.background.get_height() + 10))
+        floor.rect = floor.image.get_rect(midbottom=(self.screen_width / 2, self.background_height + 10))
 
         ceiling = pygame.sprite.Sprite()
 
@@ -74,10 +80,11 @@ class PyGame(object):
 
         food_probability = [5, 10, 20, 35, 50, 70]
 
+        self.distance = self.hero.sprite.rect.y - self.giant.sprite.rect.y
         # self.plates = pygame.sprite.Group()
         
-        plate_xloc = self.screen.get_width() / 2
-        plate_yloc = self.background.get_height() - 50
+        plate_xloc = self.screen_width / 2
+        plate_yloc = self.background_height - 50
                 
         while plate_yloc > ceiling.rect.bottom:
             xlocs = [9999999]
@@ -87,7 +94,7 @@ class PyGame(object):
                 while not approved:
                     new_xloc = random.choice((random.randint(plate_xloc - 240, plate_xloc - 80),
                                           random.randint(plate_xloc + 80, plate_xloc + 240)))
-                    new_xloc = max(min(new_xloc, self.screen.get_width() - 40), 40)
+                    new_xloc = max(min(new_xloc, self.screen_width - 40), 40)
 
                     good = [j for j in xlocs if math.fabs(j - new_xloc) > 80]
                     if len(good) == len(xlocs):
@@ -95,7 +102,7 @@ class PyGame(object):
 
                 xlocs.append(new_xloc)
                 plate_xloc = new_xloc
-                plate = Plate(self.background, plate_xloc, plate_yloc)
+                plate = Plate(plate_xloc, plate_yloc)
                 self.plates.add(plate)
 
                 food_check = random.randint(1, 100)
@@ -118,10 +125,11 @@ class PyGame(object):
         """
         self.round += 1
         self.vp = [0, -WINDOW_HEIGHT * 4]
-        self.hero.sprite.rect.midbottom = (self.background.get_width() / 2, self.background.get_height())
+        self.hero.sprite.rect.midbottom = (self.background_width / 2, self.background_height)
 
     def make_background(self):
         self.background = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT * 5))
+        self.background_width, self.background_height = self.background.get_size()
         self.background.fill(pygame.Color('skyblue'))
 
     def dead(self):
@@ -129,10 +137,7 @@ class PyGame(object):
         self.scrollspeed = 0
         pygame.display.flip()
         pygame.time.wait(2000)
-        print self.icons[self.round - 1]
-        print self.scoreboard.items.sprites()
         self.scoreboard.items.remove(self.icons[self.round - 1])
-        print self.scoreboard.items.sprites()
         self.new_round()
 
     def play(self):
@@ -158,8 +163,8 @@ class PyGame(object):
                     if event.key == pygame.K_SPACE:
                         self.hero.sprite.jump = True
                     # cheat code
-                    # if event.key == pygame.K_UP:
-                    #     self.hero.sprite.yv = -20
+                    if event.key == pygame.K_UP:
+                        self.hero.sprite.yv = -20
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
@@ -180,12 +185,12 @@ class PyGame(object):
                 for meal in collect:
                     self.score.text += meal.points
 
-            if self.background.get_height() - self.hero.sprite.rect.centery > WINDOW_HEIGHT / 2:
+            if self.background_height - self.hero.sprite.rect.centery > WINDOW_HEIGHT / 2:
                 self.scrollspeed = self.level.text + 1
 
 
             # If you die
-            if self.hero.sprite.rect.centery - -self.vp[1] > self.screen.get_height():
+            if self.hero.sprite.rect.centery - -self.vp[1] > self.screen_height:
                 self.dead()
             # Draw the scene
             self.screen.fill((0, 0, 0))
@@ -201,6 +206,8 @@ class PyGame(object):
             self.screen.blit(self.background, self.vp)
 
             # Do the scoreboard
+
+            self.p_hero.rect.x = -12 + (((self.background_height - self.hero.sprite.rect.y) * self.progress_bar.rect.width) / self.distance)
             self.scoreboard.update()
             self.scoreboard.draw(self.screen)
 
