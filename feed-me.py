@@ -52,6 +52,8 @@ class PyGame(object):
                 self.progress_bar = instance
             elif instance.prefix == 'p_hero':
                 self.p_hero = instance
+            elif instance.prefix == 'goalbar':
+                self.goalbar = instance
 
 
         # Use a clock to control frame rate
@@ -113,8 +115,8 @@ class PyGame(object):
 
             plate_yloc -= random.randint(40, 120)
 
+        self.high_score = sum(food.points for food in self.foods.sprites())
         self.round = 0
-
         self.new_round()
 
     def new_round(self):
@@ -208,6 +210,8 @@ class PyGame(object):
             # Do the scoreboard
 
             self.p_hero.rect.x = -12 + (((self.background_height - self.hero.sprite.rect.y) * self.progress_bar.rect.width) / self.distance)
+            self.goalbar.image = pygame.Surface(((self.score.text * 100 / (self.high_score * .75)), 16))
+            self.goalbar.image.fill((255, 0, 0))
             self.scoreboard.update()
             self.scoreboard.draw(self.screen)
 
