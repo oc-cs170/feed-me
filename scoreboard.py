@@ -100,14 +100,15 @@ class ScoreBoard(pygame.sprite.Group):
                            SBTextItem(font, self.player1, location=(700, 24), prefix='Score: '),
                            SBTextItem(font, 'Goal: ', location=(640, 3)),
                            SBImageItem(font, self.health, location=(690, 5), prefix='Goal: '),
-                           SBImageItem(font, self.hero, location=(335, -15)),
-                           SBImageItem(font, self.hero, location=(365, -15)),
-                           SBImageItem(font, self.hero, location=(395, -15)))
+                           SBImageItem(font, self.hero, location=(335, -15), prefix='icon'),
+                           SBImageItem(font, self.hero, location=(365, -15), prefix='icon'),
+                           SBImageItem(font, self.hero, location=(395, -15), prefix='icon'))
 
     def update(self):
         self.items.update()
         pygame.sprite.Group.update(self)
 
     def draw(self, surface):
+    	self.scoreboard.image.fill(BG)
         self.items.draw(self.scoreboard.image)
         pygame.sprite.Group.draw(self, surface)

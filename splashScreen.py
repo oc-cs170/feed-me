@@ -11,7 +11,7 @@ class splashScreen(object):
 
 
     def intro_splash(self):
-        while pygame.time.get_ticks() < 5000:
+        while pygame.time.get_ticks() < 5:
 
             self.screen.fill(pygame.Color('skyblue'))
             font = pygame.font.SysFont(pygame.font.get_default_font(), 60, bold = False)

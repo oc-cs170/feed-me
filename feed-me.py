@@ -38,11 +38,15 @@ class PyGame(object):
         self.plates = pygame.sprite.Group()
         self.foods = pygame.sprite.Group()
 
+        self.icons = []
+
         for instance in self.scoreboard.items.sprites():
             if instance.prefix == "Score: ":
                 self.score = instance
             elif instance.prefix == "Level: ":
                 self.level = instance
+            elif instance.prefix == 'icon':
+                self.icons.append(instance)
 
         # Use a clock to control frame rate
         self.clock = pygame.time.Clock()
@@ -102,7 +106,6 @@ class PyGame(object):
 
             plate_yloc -= random.randint(40, 120)
 
-        self.game_over = False
         self.round = 0
 
         self.new_round()
@@ -113,12 +116,24 @@ class PyGame(object):
         Resets all round-level parameters, increments the round counter, and
         puts the ball on the paddle.
         """
-        self.round += 1   
+        self.round += 1
+        self.vp = [0, -WINDOW_HEIGHT * 4]
+        self.hero.sprite.rect.midbottom = (self.background.get_width() / 2, self.background.get_height())
 
     def make_background(self):
         self.background = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT * 5))
         self.background.fill(pygame.Color('skyblue'))
-        self.vp = [0, -WINDOW_HEIGHT * 4] 
+
+    def dead(self):
+        self.screen.fill((0, 0, 255))
+        self.scrollspeed = 0
+        pygame.display.flip()
+        pygame.time.wait(2000)
+        print self.icons[self.round - 1]
+        print self.scoreboard.items.sprites()
+        self.scoreboard.items.remove(self.icons[self.round - 1])
+        print self.scoreboard.items.sprites()
+        self.new_round()
 
     def play(self):
         """Start PyGame program.
@@ -169,6 +184,9 @@ class PyGame(object):
                 self.scrollspeed = self.level.text + 1
 
 
+            # If you die
+            if self.hero.sprite.rect.centery - -self.vp[1] > self.screen.get_height():
+                self.dead()
             # Draw the scene
             self.screen.fill((0, 0, 0))
             self.background.fill(pygame.Color('#87CEFA'))
