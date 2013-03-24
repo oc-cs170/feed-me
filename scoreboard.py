@@ -82,27 +82,39 @@ class ScoreBoard(pygame.sprite.Group):
         self.items = pygame.sprite.Group()
 
         # Scoreboard values
+        self.player1 = 0
         self.level1 = 1
-        self.lives1 = 'X  X  X'
         
+        # Goal Meter is created here
         self.health = pygame.Surface((100, 16))
         pygame.draw.rect(self.health, (255, 255, 255), self.health.get_rect())
+
+        # Image of hero for progress bar is created here
+        image = pygame.image.load('PlanetCute PNG/Character Cat Girl.png').convert_alpha()
+        self.p_hero = pygame.transform.scale(image, (20, 35))
         
+        # Progress line is created here
+        self.progress = pygame.Surface((400, 4))
+        pygame.draw.rect(self.progress, (0, 0, 0), self.progress.get_rect())
+        
+        # Image of hero for lives is created here
         image = pygame.image.load('PlanetCute PNG/Character Cat Girl.png').convert_alpha()
         self.hero = pygame.transform.scale(image, (40, 65))
 
+        
 
-        self.player1 = 0
 
         if num_players == 1:
             self.items.add(SBTextItem(font, self.level1, location=(3, 0), prefix='Level: '),
-                           SBTextItem(font, 'Lives: ', location=(280, 12)),
+                           SBTextItem(font, 'Lives: ', location=(480, 12)),
                            SBTextItem(font, self.player1, location=(700, 24), prefix='Score: '),
                            SBTextItem(font, 'Goal: ', location=(640, 3)),
-                           SBImageItem(font, self.health, location=(690, 5), prefix='Goal: '),
-                           SBImageItem(font, self.hero, location=(335, -15)),
-                           SBImageItem(font, self.hero, location=(365, -15)),
-                           SBImageItem(font, self.hero, location=(395, -15)))
+                           SBImageItem(font, self.p_hero, location=(12, 12)),
+                           SBImageItem(font, self.progress, location=(15, 30)),
+                           SBImageItem(font, self.health, location=(690, 5)),
+                           SBImageItem(font, self.hero, location=(535, -15)),
+                           SBImageItem(font, self.hero, location=(565, -15)),
+                           SBImageItem(font, self.hero, location=(595, -15)))
 
     def update(self):
         self.items.update()
