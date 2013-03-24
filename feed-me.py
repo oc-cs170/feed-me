@@ -44,8 +44,6 @@ class PyGame(object):
         self.clock = pygame.time.Clock()
 
     def splashScreen(self):
-        # Converts ticks from milliseconds into seconds
-
         while pygame.time.get_ticks() < 5:
             self.screen.fill(pygame.Color('skyblue'))
             font = pygame.font.SysFont(pygame.font.get_default_font(), 60, bold = True)
