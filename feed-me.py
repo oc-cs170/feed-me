@@ -75,7 +75,7 @@ class PyGame(object):
         self.clock = pygame.time.Clock()
 
     def new_game(self):
-        """Start a new game of Breakout.
+        """Start a new game of Feed-Me.
 
         Resets all game-level parameters, and starts a new round.
         """
@@ -136,10 +136,10 @@ class PyGame(object):
         self.new_round()
 
     def new_round(self):
-        """Start a new round in a Breakout game.
+        """Start a new round in a Feed-Me game.
 
-        Resets all round-level parameters, increments the round counter, and
-        puts the ball on the paddle.
+        Score remains the same, goal meter stays the same,
+        Lives update, and hero places back on ground.
         """
         self.round += 1
         self.vp = [0, -WINDOW_HEIGHT * 4]
@@ -208,7 +208,6 @@ class PyGame(object):
 
             # If you die
             if self.hero.sprite.rect.centery - -self.vp[1] > self.screen_height:
-               
                 self.splashscreen.dead()
                 self.scrollspeed = 0
                 self.scoreboard.items.remove(self.icons[self.round - 1])
@@ -229,7 +228,6 @@ class PyGame(object):
             self.screen.blit(self.background, self.vp)
 
             # Do the scoreboard
-
             self.p_hero.rect.x = -12 + (((self.background_height - self.hero.sprite.rect.y) * self.progress_bar.rect.width) / self.distance)
             self.goalbar.image = pygame.Surface(((self.score.text * 100 / (self.high_score * .75)), 16))
             self.goalbar.image.fill((255, 0, 0))
@@ -239,6 +237,7 @@ class PyGame(object):
             pygame.display.flip()
             self.vp[1] += self.scrollspeed
             self.vp[1] = min(self.vp[1], 0)
+            
 
 if __name__ == '__main__':
     game = PyGame()
