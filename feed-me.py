@@ -24,13 +24,15 @@ FPS = 30
 class PyGame(object):
     """Create a game of PyGame."""
     def __init__(self):
+        pygame.mixer.init(11025,-16,2,4096)    
+        pygame.mixer.set_num_channels(3)
+       
         pygame.init()
         pygame.display.set_caption(WINDOW_TITLE)
 
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.screen_width, self.screen_height = self.screen.get_size()
         self.make_background()
-
 
         self.scoreboard = ScoreBoard(self.screen)
         self.splashscreen = SplashScreen()
@@ -40,6 +42,17 @@ class PyGame(object):
         self.giant = pygame.sprite.GroupSingle(Giant(self.background))
         self.plates = pygame.sprite.Group()
         self.foods = pygame.sprite.Group()
+
+        #music
+        self.bounce = pygame.mixer.Sound('sounds/bounce.ogg')
+        self.chew = pygame.mixer.Sound('sounds/eating.wav')
+        self.die = pygame.mixer.Sound('sounds/die.ogg')
+        self.bsound = pygame.mixer.Sound('sounds/bsound.ogg')
+
+
+        # #music
+        self.bsound.set_volume(0.2)
+        self.bsound.play(loops=100, maxtime=0, fade_ms=0)
 
         self.icons = []
 
@@ -66,6 +79,7 @@ class PyGame(object):
 
         Resets all game-level parameters, and starts a new round.
         """
+
         self.scrollspeed = 0
 
         floor = pygame.sprite.Sprite()
@@ -158,6 +172,9 @@ class PyGame(object):
                         self.hero.sprite.xv = -5
                     if event.key == pygame.K_SPACE:
                         self.hero.sprite.jump = True
+                        self.bounce.set_volume(0.3)
+                        self.bounce.play(loops=0, maxtime=0, fade_ms=0)
+
                     # cheat code
                     # if event.key == pygame.K_UP:
                     #     self.hero.sprite.yv = -20
@@ -173,13 +190,17 @@ class PyGame(object):
 
             self.hero.sprite.plate = contact
 
+
             # If hero picks up food
             collect = pygame.sprite.spritecollide(self.hero.sprite, self.foods, True,
-                                                  pygame.sprite.collide_mask)
+                                                  pygame.sprite.collide_mask) 
 
             if collect:
                 for meal in collect:
                     self.score.text += meal.points
+                    self.chew.play(loops=0, maxtime=1500, fade_ms=0)
+                    self.chew.set_volume(1.0)
+
 
             if self.background_height - self.hero.sprite.rect.centery > WINDOW_HEIGHT / 2:
                 self.scrollspeed = self.level.text + 1
@@ -187,6 +208,15 @@ class PyGame(object):
 
             # If you die
             if self.hero.sprite.rect.centery - -self.vp[1] > self.screen_height:
+                # self.bsound.stop()
+                # self.die.play(loops=0, maxtime=0, fade_ms= 0)
+                # self.die.set_volume(1.0)
+                # self.dead()
+                
+                # #restart music
+                # self.bsound.play()
+
+
                 self.splashscreen.dead()
                 self.scrollspeed = 0
                 self.scoreboard.items.remove(self.icons[self.round - 1])
