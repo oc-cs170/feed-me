@@ -8,9 +8,6 @@ class splashScreen(object):
 
         waiting = True
         while waiting:
-            pygame.mixer.pre_init(frequency=22050, size=-16, channels=4, buffersize=4096)
-
-
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
