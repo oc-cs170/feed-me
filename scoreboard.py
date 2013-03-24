@@ -26,7 +26,7 @@ class SBImageItem(pygame.sprite.Sprite):
     def __init__(self, font, image, location=(0,0), prefix=''):
         pygame.sprite.Sprite.__init__(self)
 
-        self.font= font
+        self.font = font
         self.location = location
         self.prefix = prefix
         self.image = image
@@ -69,11 +69,11 @@ class ScoreBoard(pygame.sprite.Group):
         """
         pygame.sprite.Group.__init__(self)
         self.image = None
-        self.screen = screen
+        self.screen_width, self.screen_height = screen.get_size()
         self.scoreboard = pygame.sprite.Sprite()
-        self.scoreboard.image = pygame.Surface((screen.get_width(), HEIGHT))
+        self.scoreboard.image = pygame.Surface((self.screen_width, HEIGHT))
         self.scoreboard.image.fill(BG)
-        y = 0 if top else screen.get_height() - HEIGHT
+        y = 0 if top else self.screen_height - HEIGHT
         self.scoreboard.rect = self.scoreboard.image.get_rect(topleft=(0, 0))
         self.add(self.scoreboard)
 
@@ -101,25 +101,23 @@ class ScoreBoard(pygame.sprite.Group):
         image = pygame.image.load('PlanetCute PNG/Character Cat Girl.png').convert_alpha()
         self.hero = pygame.transform.scale(image, (40, 65))
 
-        
-
-
         if num_players == 1:
             self.items.add(SBTextItem(font, self.level1, location=(3, 0), prefix='Level: '),
                            SBTextItem(font, 'Lives: ', location=(480, 12)),
                            SBTextItem(font, self.player1, location=(700, 24), prefix='Score: '),
                            SBTextItem(font, 'Goal: ', location=(640, 3)),
-                           SBImageItem(font, self.p_hero, location=(12, 12)),
-                           SBImageItem(font, self.progress, location=(15, 30)),
+                           SBImageItem(font, self.progress, location=(15, 30), prefix='progress'),
+                           SBImageItem(font, self.p_hero, location=(12, 12), prefix='p_hero'),
                            SBImageItem(font, self.health, location=(690, 5)),
-                           SBImageItem(font, self.hero, location=(535, -15)),
-                           SBImageItem(font, self.hero, location=(565, -15)),
-                           SBImageItem(font, self.hero, location=(595, -15)))
+                           SBImageItem(font, self.hero, location=(535, -15), prefix='icon'),
+                           SBImageItem(font, self.hero, location=(565, -15), prefix='icon'),
+                           SBImageItem(font, self.hero, location=(595, -15), prefix='icon'))
 
     def update(self):
         self.items.update()
         pygame.sprite.Group.update(self)
 
     def draw(self, surface):
+    	self.scoreboard.image.fill(BG)
         self.items.draw(self.scoreboard.image)
         pygame.sprite.Group.draw(self, surface)
