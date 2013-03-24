@@ -36,8 +36,10 @@ class PyGame(object):
         self.giant = pygame.sprite.GroupSingle(Giant(self.background))
         self.plates = pygame.sprite.Group()
         self.foods = pygame.sprite.Group()
-        
 
+
+        self.level = self.scoreboard.items.sprites()[1]
+        self.score = self.scoreboard.items.sprites()[2]
         # Use a clock to control frame rate
         self.clock = pygame.time.Clock()
 
@@ -54,7 +56,7 @@ class PyGame(object):
                      "Move: Right and Left Arrows",
                      "Space: Jump"
                     ]
-            
+
             for i in range(5):
                 x = lines[i]
                 label = font.render(x, 1, (0,0,0))
@@ -73,6 +75,8 @@ class PyGame(object):
 
         Resets all game-level parameters, and starts a new round.
         """
+        self.scrollspeed = 0
+
         floor = pygame.sprite.Sprite()
         floor.image = pygame.Surface((self.screen.get_width(), 16)).convert_alpha()
         floor.image.fill(pygame.Color('green'))
@@ -117,7 +121,7 @@ class PyGame(object):
                     if food_check < food_probability[i]:
                         self.foods.add(Food(i, plate))
                         break
-                
+
             plate_yloc -= random.randint(40, 120)
 
         self.game_over = False
@@ -168,19 +172,25 @@ class PyGame(object):
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                         self.hero.sprite.xv = 0
 
-                
+
             # Is the hero colliding with a plate?
             contact = pygame.sprite.spritecollide(self.hero.sprite, self.plates, False,
                                                   pygame.sprite.collide_mask)
 
             self.hero.sprite.plate = contact
 
+            # If hero picks up food
             collect = pygame.sprite.spritecollide(self.hero.sprite, self.foods, True,
                                                   pygame.sprite.collide_mask)
+
             if collect:
                 for meal in collect:
-                    self.scoreboard.items.sprites()[2].text += meal.points
+                    self.score.text += meal.points
 
+            # screen scrolls when player reaches half the screen height
+
+            if self.background.get_height() - self.hero.sprite.rect.centery > WINDOW_HEIGHT / 2:
+                self.scrollspeed = self.level.text + 1
 
 
             # Draw the scene
@@ -200,8 +210,8 @@ class PyGame(object):
             self.scoreboard.update()
             self.scoreboard.draw(self.screen)
 
-            pygame.display.flip()            
-            self.vp[1] += 2
+            pygame.display.flip()
+            self.vp[1] += self.scrollspeed
 
             self.vp[1] = min(self.vp[1], 0)
 
