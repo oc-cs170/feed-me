@@ -23,12 +23,14 @@ FPS = 30
 class PyGame(object):
     """Create a game of PyGame."""
     def __init__(self):
+        pygame.mixer.init(11025,-16,2,4096)    
+        pygame.mixer.set_num_channels(3)
+       
         pygame.init()
         pygame.display.set_caption(WINDOW_TITLE)
 
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.make_background()
-
 
         self.scoreboard = ScoreBoard(self.screen)
 
@@ -36,17 +38,29 @@ class PyGame(object):
         self.giant = pygame.sprite.GroupSingle(Giant(self.background))
         self.plates = pygame.sprite.Group()
         self.foods = pygame.sprite.Group()
-
-
+       
         self.level = self.scoreboard.items.sprites()[1]
         self.score = self.scoreboard.items.sprites()[4]
         # Use a clock to control frame rate
         self.clock = pygame.time.Clock()
 
+        #music
+   
+        self.bounce = pygame.mixer.Sound('sounds/bounce.ogg')
+        self.bsound = pygame.mixer.Sound('sounds/bsound.ogg')
+        self.chew = pygame.mixer.Sound('sounds/eating.wav')
+
+
+        
     def splashScreen(self):
         # Converts ticks from milliseconds into seconds
+        
+        #music
+        self.bsound.set_volume(0.2)
+        self.bsound.play(loops=100, maxtime=0, fade_ms=0)
 
-        while pygame.time.get_ticks() < 5:
+
+        while pygame.time.get_ticks() < 5000:
             self.screen.fill(pygame.Color('skyblue'))
             font = pygame.font.SysFont(pygame.font.get_default_font(), 60, bold = True)
             
@@ -63,18 +77,14 @@ class PyGame(object):
                 width = label.get_width()
                 self.screen.blit(label, (WINDOW_WIDTH /2 - width /2, i*50))
 
-
             pygame.display.flip()
-
-
-
-
 
     def new_game(self):
         """Start a new game of Breakout.
 
         Resets all game-level parameters, and starts a new round.
         """
+
         self.scrollspeed = 0
 
         floor = pygame.sprite.Sprite()
@@ -148,6 +158,7 @@ class PyGame(object):
 
         self.new_game()
         self.splashScreen()
+        
         running = True
         while running:
             self.clock.tick(FPS)  # Max frames per second
@@ -164,9 +175,12 @@ class PyGame(object):
                         self.hero.sprite.xv = -5
                     if event.key == pygame.K_SPACE:
                         self.hero.sprite.jump = True
+                        self.bounce.set_volume(0.3)
+                        self.bounce.play(loops=0, maxtime=0, fade_ms=0)
+
                     # cheat code
-                    if event.key == pygame.K_UP:
-                        self.hero.sprite.yv = -20
+                    # if event.key == pygame.K_UP:
+                    #     self.hero.sprite.yv = -20
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
@@ -179,13 +193,17 @@ class PyGame(object):
 
             self.hero.sprite.plate = contact
 
+
             # If hero picks up food
             collect = pygame.sprite.spritecollide(self.hero.sprite, self.foods, True,
-                                                  pygame.sprite.collide_mask)
+                                                  pygame.sprite.collide_mask) 
 
             if collect:
                 for meal in collect:
                     self.score.text += meal.points
+                    self.chew.play(loops=0, maxtime=1500, fade_ms=0)
+                    self.chew.set_volume(1.0)
+
 
             if self.background.get_height() - self.hero.sprite.rect.centery > WINDOW_HEIGHT / 2:
                 self.scrollspeed = self.level.text + 1
