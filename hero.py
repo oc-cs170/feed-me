@@ -31,6 +31,3 @@ class Hero(pygame.sprite.Sprite):
         self.yv = min(self.yv, 15)
         self.rect.move_ip(self.xv, self.yv)
         self.rect.centerx = max(0, min(self.rect.centerx,self.screen.get_width()))
-        
-
-

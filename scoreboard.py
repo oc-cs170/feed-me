@@ -17,8 +17,8 @@ class SBTextItem(pygame.sprite.Sprite):
         self.update()
 
     def update(self):
-        text = ''.join([self.prefix, str(self.text), self.suffix])
-        self.image = self.font.render(text, True, FG, BG)
+        message = ''.join([self.prefix, str(self.text), self.suffix])
+        self.image = self.font.render(message, True, FG, BG)
         self.rect = self.image.get_rect(topleft=self.location)
 
 
@@ -82,8 +82,7 @@ class ScoreBoard(pygame.sprite.Group):
         self.items = pygame.sprite.Group()
 
         # Scoreboard values
-        self.player1 = 0
-        self.level1 = 0
+        self.level1 = 1
         self.lives1 = 'X  X  X'
         
         self.health = pygame.Surface((100, 16))
@@ -91,6 +90,9 @@ class ScoreBoard(pygame.sprite.Group):
         
         image = pygame.image.load('PlanetCute PNG/Character Cat Girl.png').convert_alpha()
         self.hero = pygame.transform.scale(image, (40, 65))
+
+
+        self.player1 = 0
 
         if num_players == 1:
             self.items.add(SBTextItem(font, self.level1, location=(3, 0), prefix='Level: '),

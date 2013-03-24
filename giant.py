@@ -9,4 +9,4 @@ class Giant(pygame.sprite.Sprite):
 	
 		# Image place holder for Giant
 		self.image = pygame.image.load(png).convert_alpha()
-		self.rect = self.image.get_rect(topleft=(35, 20))
+		self.rect = self.image.get_rect(bottomleft=(35, self.background.get_height() / 5 - 10))
