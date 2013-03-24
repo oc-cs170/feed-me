@@ -4,14 +4,8 @@ class splashScreen(object):
     def __init__(self, screen):
         self.screen = screen
 
-
-
-
-
-
-
     def intro_splash(self):
-        button_press = False
+
         waiting = True
         while waiting:
             pygame.mixer.pre_init(frequency=22050, size=-16, channels=4, buffersize=4096)
