@@ -11,8 +11,13 @@ class splashScreen(object):
 
 
     def intro_splash(self):
-        while pygame.time.get_ticks() < 5000:
-
+        button_press = False
+        waiting = True
+        while waiting:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        waiting = False
             self.screen.fill(pygame.Color('skyblue'))
             font = pygame.font.SysFont(pygame.font.get_default_font(), 60, bold = False)
             
