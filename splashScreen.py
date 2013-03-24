@@ -75,7 +75,6 @@ class SplashScreen():
                  '      lemon (worth 20 points)',
                  '      eggplant (worth 10 points)',
                  ' ',
-                 ' ',
                  'Press enter to start...',
                  ' ',
                  'Press q or escape to quit.']
@@ -108,7 +107,7 @@ class SplashScreen():
         self.inner = (BORDER, BORDER, self.screen_width - 2 * BORDER, self.screen_height - 2 * BORDER)
         self.splash.fill(self.bg, self.inner)
 
-        font1 = pygame.font.SysFont('Arial', 80, bold=True)
+        font1 = pygame.font.SysFont('Arial', 70, bold=True)
         antialias = True
         width, height = font1.size(title)
         x = ((self.screen_width - width) / 2)
