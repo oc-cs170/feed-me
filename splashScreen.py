@@ -14,6 +14,9 @@ class splashScreen(object):
         button_press = False
         waiting = True
         while waiting:
+            pygame.mixer.pre_init(frequency=22050, size=-16, channels=4, buffersize=4096)
+
+
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
@@ -24,22 +27,25 @@ class splashScreen(object):
             lines = ["Feed-Me",
                      "",
                      "",
-                     "Move: Right and Left Arrows",
-                     "Space: Jump",
+                     "kiwi (worth 50 points)",
+                     "fires (worth 30 points)",
+                     "watermelon (worth 30 points)",
+                     "popcorn (worth 20 points)",
+                     "lemon (worth 20 points)",
+                     "eggplant (worth 10 points)",
                      "",
-                    "kiwi (worth 50 points)",
-                    "fires (worth 30 points)",
-                    "watermelon (worth 30 points)",
-                    "popcorn (worth 20 points)",
-                    "lemon (worth 20 points)",
-                    "eggplant (worth 10 points)"
+                     "Move: Right and Left Arrows",
+                     "Space: Jump"
+                     
                     ]
 
             for i in range(len(lines)):
                 x = lines[i]
                 label = font.render(x, 1, (0,0,0))
                 width = label.get_width()
-                self.screen.blit(label, (self.screen.get_width() /2 - width /2, i*50))
+                #self.screen.blit(label, (self.screen.get_width() /2 - width /2, i*50))
+                self.screen.blit(label, (0, i*45))
+
 
 
             pygame.display.flip()
