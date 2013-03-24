@@ -80,7 +80,6 @@ class SplashScreen():
 
 
         while True:           # Pause loop
-            return True
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
@@ -95,7 +94,7 @@ class SplashScreen():
         self.die.play(loops=0, maxtime=0, fade_ms= 0)
         self.die.set_volume(1.0)
         
-        self.title = 'YOU DIED'
+        title = 'YOU DIED'
         self.splash = self.screen.copy()
         self.splash.fill((65, 105, 225))
         self.inner = (BORDER, BORDER, self.screen_width - 2 * BORDER, self.screen_height - 2 * BORDER)
@@ -103,14 +102,14 @@ class SplashScreen():
 
         font1 = pygame.font.SysFont('Arial', 80, bold=True)
         antialias = True
-        width, height = font1.size(self.title)
+        width, height = font1.size(title)
         x = ((self.screen_width - width) / 2)
         y = 2 * BORDER
 
-        for i in range(len(self.title)):
+        for i in range(len(title)):
             self.clock.tick(4)
             self.screen.blit(self.splash, (0, 0))
-            surf = font1.render(self.title[0:i + 1], antialias, self.fg, self.bg)
+            surf = font1.render(title[0:i + 1], antialias, self.fg, self.bg)
             self.screen.blit(surf, (x, y))
             pygame.display.flip()
 
@@ -119,8 +118,57 @@ class SplashScreen():
         x += 35
         y = y + height + BORDER
         lines = ['Please wait',
+                 'to try again!',
+                 ' ',
+                 "Note: Don't fall below the screen!"]
+        for line in lines:
+            self.clock.tick(10)
+            surf = font2.render(line, antialias, self.fg, self.bg)
+            self.screen.blit(surf, (x, y))
+            y += surf.get_height()
+            pygame.display.flip()
+
+        pygame.display.flip()
+        pygame.time.wait(4000)
+        #restart music
+        self.bsound.play()
+
+    def goal_meter(self):
+        # Build the splash screen
+
+        self.bsound.stop()
+        self.die.play(loops=0, maxtime=0, fade_ms= 0)
+        self.die.set_volume(1.0)
+        
+        title = 'YOU DIED'
+        self.splash = self.screen.copy()
+        self.splash.fill((65, 105, 225))
+        self.inner = (BORDER, BORDER, self.screen_width - 2 * BORDER, self.screen_height - 2 * BORDER)
+        self.splash.fill(self.bg, self.inner)
+
+        font1 = pygame.font.SysFont('Arial', 80, bold=True)
+        antialias = True
+        width, height = font1.size(title)
+        x = ((self.screen_width - width) / 2)
+        y = 2 * BORDER
+
+        for i in range(len(title)):
+            self.clock.tick(4)
+            self.screen.blit(self.splash, (0, 0))
+            surf = font1.render(title[0:i + 1], antialias, self.fg, self.bg)
+            self.screen.blit(surf, (x, y))
+            pygame.display.flip()
+
+        # clock.tick(1)
+        font2 = pygame.font.SysFont('Arial', 24, bold=True)
+        x += 35
+        y = y + height + BORDER
+        lines = ['Goal meter was not met',
+                 ' ',
+                 'Please wait',
                  'to try again!'
-                 ]
+                 ' ',
+                 ' ']
         for line in lines:
             self.clock.tick(10)
             surf = font2.render(line, antialias, self.fg, self.bg)
@@ -135,7 +183,7 @@ class SplashScreen():
 
 
     def end_level(self):
-        self.title = 'CONGRATULATIONS!'
+        title = 'CONGRATULATIONS!'
         self.splash = self.screen.copy()
         # self.splash = (0 , 0, self.screen_width / 2, self.screen_height / 2)
         self.splash.fill((65, 105, 225))
@@ -144,14 +192,14 @@ class SplashScreen():
 
         font1 = pygame.font.SysFont('Arial', 60, bold=True)
         antialias = True
-        width, height = font1.size(self.title)
+        width, height = font1.size(title)
         x = ((self.screen_width - width) / 2)
         y = ((self.screen_height - height) / 3)
 
-        for i in range(len(self.title)):
+        for i in range(len(title)):
             self.clock.tick(4)
             self.screen.blit(self.splash, (0, 0))
-            surf = font1.render(self.title[0:i + 1], antialias, self.fg, self.bg)
+            surf = font1.render(title[0:i + 1], antialias, self.fg, self.bg)
             self.screen.blit(surf, (x, y))
             pygame.display.flip()
 
@@ -178,7 +226,7 @@ class SplashScreen():
 
     def game_over(self):
         # Build the splash screen
-        self.title = 'GAME OVER'
+        title = 'GAME OVER'
         self.splash = self.screen.copy()
         self.splash.fill((65, 105, 225))
         self.inner = (BORDER, BORDER, self.screen_width - 2 * BORDER, self.screen_height - 2 * BORDER)
@@ -187,80 +235,16 @@ class SplashScreen():
    # hide_screen = pygame.time.get_ticks()
         font1 = pygame.font.SysFont('Arial', 80, bold=True)
         antialias = True
-        width, height = font1.size(self.title)
+        width, height = font1.size(title)
         x = ((self.screen_width - width) / 2) + 7
         y = 2 * BORDER
 
-        for i in range(len(self.title)):
+        for i in range(len(title)):
             self.clock.tick(4)
             self.screen.blit(self.splash, (0, 0))
-            surf = font1.render(self.title[0:i + 1], antialias, self.fg, self.bg)
+            surf = font1.render(title[0:i + 1], antialias, self.fg, self.bg)
             self.screen.blit(surf, (x, y))
             pygame.display.flip()
 
-        # clock.tick(1)
-        font2 = pygame.font.SysFont('Arial', 24, bold=True)
-        x *= 2
-        y = y + height + BORDER
-        lines = ['Would you like to',
-                 'play again?',
-                 ' ',
-                 ' ',
-                 ' ',
-                 'Press y for Yes...',
-                 ' ',
-                 'Press n for No...']
-        for line in lines:
-            self.clock.tick(10)
-            surf = font2.render(line, antialias, self.fg, self.bg)
-            self.screen.blit(surf, (x, y))
-            y += surf.get_height()
-            pygame.display.flip()
+        pygame.time.wait(5000)
 
-        waiting = True
-        while waiting:           # Pause loop
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_y:
-                        waiting = False
-                    if event.key == pygame.K_q or event.key == pygame.K_ESCAPE or event.key == pygame.K_n:
-                        self.game_over = True
-                    break
-
-
-    def intro_splash(self):
-        
-        waiting = True
-        while waiting:
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        waiting = False
-            self.screen.fill(pygame.Color('skyblue'))
-            font = pygame.font.SysFont(pygame.font.get_default_font(), 60, bold = False)
-            
-            lines = ["Feed-Me",
-                     "",
-                     "",
-                     "kiwi (worth 50 points)",
-                     "fires (worth 30 points)",
-                     "watermelon (worth 30 points)",
-                     "popcorn (worth 20 points)",
-                     "lemon (worth 20 points)",
-                     "eggplant (worth 10 points)",
-                     "",
-                     "Move: Right and Left Arrows",
-                     "Space: Jump"
-                     
-                    ]
-
-            for i in range(len(lines)):
-                x = lines[i]
-                label = font.render(x, 1, (0,0,0))
-                width = label.get_width()
-                #self.screen.blit(label, (self.screen.get_width() /2 - width /2, i*50))
-                self.screen.blit(label, (0, i*45))
-
-
-
-            pygame.display.flip()

@@ -81,7 +81,8 @@ class PyGame(object):
         """
         self.score.text = 0
         self.level.text = 0
-        
+
+        self.running = self.splashscreen.draw()
 
         self.distance = self.hero.sprite.rect.y - self.giant.sprite.rect.y
 
@@ -160,8 +161,9 @@ class PyGame(object):
 
     def died(self):
         self.splashscreen.dead()
-        if self.lives > 2:
+        if self.lives >= 2:
             self.splashscreen.game_over()
+            self.new_game()
         else:
             self.scoreboard.items.remove(self.icons[self.lives])
             self.new_life()
@@ -171,7 +173,8 @@ class PyGame(object):
             self.splashscreen.end_level()
             self.new_level()
         else:
-            self.died()
+            self.splashscreen.goal_meter()
+            self.new_life()
 
     def make_background(self):
         self.background = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT * 5))
@@ -183,16 +186,16 @@ class PyGame(object):
     def play(self):
         """Start PyGame program.
         """
-        running = self.splashscreen.draw()
+        
         self.new_game()
         
-        while running:
+        while self.running:
             self.clock.tick(FPS)  # Max frames per second
 
             # Event handling
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
-                    running = False
+                    self.running = False
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
