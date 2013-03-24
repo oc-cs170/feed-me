@@ -43,12 +43,14 @@ class PyGame(object):
 
         #music
         self.bounce = pygame.mixer.Sound('sounds/bounce.ogg')
-        self.bsound = pygame.mixer.Sound('sounds/bsound.ogg')
         self.chew = pygame.mixer.Sound('sounds/eating.wav')
+        self.die = pygame.mixer.Sound('sounds/die.ogg')
+        self.bsound = pygame.mixer.Sound('sounds/bsound.ogg')
 
-        #music
-        # self.bsound.set_volume(0.2)
-        # self.bsound.play(loops=100, maxtime=0, fade_ms=0)
+
+        # #music
+        self.bsound.set_volume(0.2)
+        self.bsound.play(loops=100, maxtime=0, fade_ms=0)
 
         self.icons = []
 
@@ -210,7 +212,15 @@ class PyGame(object):
 
             # If you die
             if self.hero.sprite.rect.centery - -self.vp[1] > self.screen_height:
+                self.bsound.stop()
+                self.die.play(loops=0, maxtime=0, fade_ms= 0)
+                self.die.set_volume(1.0)
                 self.dead()
+                
+                #restart music
+                self.bsound.play()
+
+
             # Draw the scene
             self.screen.fill((0, 0, 0))
             self.background.fill(pygame.Color('#87CEFA'))

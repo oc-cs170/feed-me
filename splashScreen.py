@@ -1,11 +1,17 @@
 import pygame
 
+
 class splashScreen(object):
     def __init__(self, screen):
         self.screen = screen
+        # pygame.mixer.init(11025,-16,2,4096)    
+        # pygame.mixer.set_num_channels(3)
+        # self.bsound = pygame.mixer.Sound('sounds/bsound.ogg')
 
     def intro_splash(self):
-
+        #music
+        # self.bsound.set_volume(0.2)
+        # self.bsound.play(loops=100, maxtime=0, fade_ms=0)
         waiting = True
         while waiting:
             for event in pygame.event.get():
