@@ -8,7 +8,10 @@ BORDER = 20
 
 class SplashScreen():
     def __init__(self):
+        pygame.mixer.init(11025,-16,2,4096)    
+        pygame.mixer.set_num_channels(3)
         pygame.init()
+
         self.screen_width, self.screen_height = WINDOW_WIDTH, WINDOW_HEIGHT
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         self.background = self.screen.copy()
@@ -20,8 +23,15 @@ class SplashScreen():
         self.fg = (65, 105, 255)
         self.clock = pygame.time.Clock()
 
+        self.bsound = pygame.mixer.Sound('sounds/bsound.ogg')
+        self.die = pygame.mixer.Sound('sounds/die.ogg')
+        self.bsound.set_volume(.2)
+        self.bsound.play()
+       
+
     def draw(self):
         # Build the splash screen
+
         self.splash = self.screen.copy()
         self.splash.fill((65, 105, 225))
         self.inner = (BORDER, BORDER, self.screen_width - 2 * BORDER, self.screen_height - 2 * BORDER)
@@ -80,10 +90,9 @@ class SplashScreen():
     def dead(self):
         # Build the splash screen
 
-
-        # pygame.mixer.init(11025,-16,2,4096)    
-        # pygame.mixer.set_num_channels(3)
-        # self.bsound = pygame.mixer.Sound('sounds/bsound.ogg')
+        self.bsound.stop()
+        self.die.play(loops=0, maxtime=0, fade_ms= 0)
+        self.die.set_volume(1.0)
         
         self.title = 'YOU DIED'
         self.splash = self.screen.copy()
@@ -118,20 +127,10 @@ class SplashScreen():
             y += surf.get_height()
             pygame.display.flip()
 
-        # waiting = True
-        # while waiting:           # Pause loop
-        #     for event in pygame.event.get():
-        #         if event.type == pygame.KEYDOWN:
-        #             if event.key == pygame.K_y:
-        #                 waiting = False
-        #             if event.key == pygame.K_q or event.key == pygame.K_ESCAPE or event.key == pygame.K_n:
-        #                 self.game_over = True
-        #             break
-
-        # self.screen.fill((0, 0, 255))
-        
         pygame.display.flip()
         pygame.time.wait(2000)
+        #restart music
+        self.bsound.play()
 
     def game_over(self):
         # Build the splash screen
@@ -186,9 +185,7 @@ class SplashScreen():
 
 
     def intro_splash(self):
-        #music
-        # self.bsound.set_volume(0.2)
-        # self.bsound.play(loops=100, maxtime=0, fade_ms=0)
+        
         waiting = True
         while waiting:
             for event in pygame.event.get():
