@@ -83,7 +83,7 @@ class ScoreBoard(pygame.sprite.Group):
 
         # Scoreboard values
         self.player1 = 0
-        self.level1 = 1
+        self.level1 = 0
         
         # Goal Meter is created here
         self.goal_edge = pygame.Surface((100, 16))

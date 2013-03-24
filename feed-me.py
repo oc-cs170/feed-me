@@ -54,6 +54,19 @@ class PyGame(object):
         # self.bsound.set_volume(0.2)
         # self.bsound.play(loops=100, maxtime=0, fade_ms=0)
 
+        
+
+
+        # Use a clock to control frame rate
+        self.clock = pygame.time.Clock()
+
+    def new_game(self):
+        """Start a new game of Feed-Me.
+
+        Resets all game-level parameters, and starts a new round.
+        """
+        self.scoreboard = ScoreBoard(self.screen)
+
         self.icons = []
 
         for instance in self.scoreboard.items.sprites():
@@ -70,17 +83,6 @@ class PyGame(object):
             elif instance.prefix == 'goalbar':
                 self.goalbar = instance
 
-
-        # Use a clock to control frame rate
-        self.clock = pygame.time.Clock()
-
-    def new_game(self):
-        """Start a new game of Feed-Me.
-
-        Resets all game-level parameters, and starts a new round.
-        """
-        self.score.text = 0
-        self.level.text = 0
 
         self.running = self.splashscreen.draw()
 
@@ -149,32 +151,31 @@ class PyGame(object):
 
 
         self.level_score = 0
-        self.lives = -1
         self.level.text += 1
+        self.goalbar.image = pygame.Surface((0, 0))
         self.new_life()
         
     def new_life(self):
         self.scrollspeed = 0
         self.vp = [0, -WINDOW_HEIGHT * 4]
         self.hero.sprite.rect.midbottom = (self.background_width / 2, self.background_height)
-        self.lives += 1
 
-    def died(self):
-        self.splashscreen.dead()
-        if self.lives >= 2:
+    def died(self, how):
+        self.splashscreen.message(how)
+        if len(self.icons) <= 1:
             self.splashscreen.game_over()
             self.new_game()
         else:
-            self.scoreboard.items.remove(self.icons[self.lives])
+            self.scoreboard.items.remove(self.icons[0])
+            self.icons.remove(self.icons[0])
             self.new_life()
 
     def end_level(self):
         if self.level_score > (self.high_score * .75):
-            self.splashscreen.end_level()
+            self.splashscreen.message(2)
             self.new_level()
         else:
-            self.splashscreen.goal_meter()
-            self.new_life()
+            self.died(1)
 
     def make_background(self):
         self.background = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT * 5))
@@ -231,7 +232,6 @@ class PyGame(object):
                 for meal in collect:
                     self.score.text += meal.points
                     self.level_score += meal.points
-                    print (self.level_score * 100) / (self.high_score*.75)
                     self.goalbar.image = pygame.Surface((min(self.level_score * 100 / (self.high_score*.75), 100), 16))
                     self.goalbar.image.fill((255, 0, 0))
                     self.chew.play(loops=0, maxtime=1500, fade_ms=0)
@@ -244,7 +244,7 @@ class PyGame(object):
 
             # If you die
             if self.hero.sprite.rect.centery - -self.vp[1] > self.screen_height:
-                self.died()
+                self.died(0)
 
                
 
