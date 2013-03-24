@@ -79,7 +79,7 @@ class ScoreBoard(pygame.sprite.Group):
 
         font = pygame.font.SysFont('Arial', FONT_SIZE, True)
 
-        self.items = pygame.sprite.Group()
+        self.items = pygame.sprite.OrderedUpdates()
 
         # Scoreboard values
         self.player1 = 0
@@ -104,17 +104,17 @@ class ScoreBoard(pygame.sprite.Group):
         self.hero = pygame.transform.scale(image, (40, 65))
 
         if num_players == 1:
-            self.items.add(SBTextItem(font, self.level1, location=(3, 0), prefix='Level: '),
+            self.items.add([SBTextItem(font, self.level1, location=(3, 0), prefix='Level: '),
                            SBTextItem(font, 'Lives: ', location=(480, 12)),
                            SBTextItem(font, self.player1, location=(690, 24), prefix='Score: '),
                            SBTextItem(font, 'Goal: ', location=(640, 3)),
-                           SBImageItem(font, self.p_hero, location=(12, 12), prefix='p_hero'),
                            SBImageItem(font, self.progress, location=(15, 30), prefix='progress'),
+                           SBImageItem(font, self.p_hero, location=(12, 12), prefix='p_hero'),
                            SBImageItem(font, self.goal_edge, location=(690, 5)),
                            SBImageItem(font, self.goal_inner, location=(690, 5), prefix='goalbar'),
                            SBImageItem(font, self.hero, location=(535, -15), prefix='icon'),
                            SBImageItem(font, self.hero, location=(565, -15), prefix='icon'),
-                           SBImageItem(font, self.hero, location=(595, -15), prefix='icon'))
+                           SBImageItem(font, self.hero, location=(595, -15), prefix='icon')])
 
     def update(self):
         self.items.update()

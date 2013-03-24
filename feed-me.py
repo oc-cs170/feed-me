@@ -205,7 +205,6 @@ class PyGame(object):
                         self.hero.sprite.xv = -5
                     if event.key == pygame.K_SPACE:
                         self.hero.sprite.jump = True
-                        self.bounce.set_volume(0.3)
                         self.bounce.play(loops=0, maxtime=0, fade_ms=0)
 
                     # cheat code

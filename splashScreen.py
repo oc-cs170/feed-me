@@ -25,11 +25,14 @@ class SplashScreen():
 
         self.bsound = pygame.mixer.Sound('sounds/bsound.ogg')
         self.die = pygame.mixer.Sound('sounds/die.ogg')
+        self.elvlsound = pygame.mixer.Sound('sounds/small pin.wav')
+        self.egamesound = pygame.mixer.Sound('sounds/small pin.wav')
         self.bsound.set_volume(.2)
         self.bsound.play()
         self.messages = [['YOU DIED', 'Please wait', 'to try again!', ' ', "Note: Don't fall below the screen!"],
                          ['YOU DIED', 'Goal meter was not met', ' ', 'Please wait', 'to try again!'],
                          ['CONGRATULATIONS', ' ', 'Please wait to move', 'onto next level!']]
+
        
 
     def draw(self):
@@ -136,6 +139,11 @@ class SplashScreen():
 
     def game_over(self):
         # Build the splash screen
+        
+        self.bsound.stop()
+        self.egamesound.play(loops=0, maxtime=7000, fade_ms= 0)
+        self.egamesound.set_volume(1.0)
+
         title = 'GAME OVER'
         self.splash = self.screen.copy()
         self.splash.fill((65, 105, 225))
@@ -154,7 +162,9 @@ class SplashScreen():
             self.screen.blit(self.splash, (0, 0))
             surf = font1.render(title[0:i + 1], antialias, self.fg, self.bg)
             self.screen.blit(surf, (x, y))
-            pygame.display.flip()
+        
+        pygame.display.flip()
 
         pygame.time.wait(5000)
+        self.bsound.play()
 
