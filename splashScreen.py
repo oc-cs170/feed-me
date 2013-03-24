@@ -58,7 +58,9 @@ class SplashScreen():
         font2 = pygame.font.SysFont('Arial', 24, bold=True)
         x += 35
         y = y + height + BORDER
-        lines = ['To move cat girl use <-, ->',
+        lines = ['To move cat girl use left or right',
+                 'arrow keys',
+                 ' ',
                  'To jump use Space Bar',
                  ' ',
                  'Collect the various food items to',
@@ -73,7 +75,7 @@ class SplashScreen():
                  ' ',
                  'Press enter to start...',
                  ' ',
-                 'Press q or escape to quite.']
+                 'Press q or escape to quit.']
         for line in lines:
             self.clock.tick(10)
             surf = font2.render(line, antialias, self.fg, self.bg)
