@@ -39,7 +39,7 @@ class PyGame(object):
 
 
         self.level = self.scoreboard.items.sprites()[1]
-        self.score = self.scoreboard.items.sprites()[2]
+        self.score = self.scoreboard.items.sprites()[4]
         # Use a clock to control frame rate
         self.clock = pygame.time.Clock()
 
@@ -187,8 +187,6 @@ class PyGame(object):
                 for meal in collect:
                     self.score.text += meal.points
 
-            # screen scrolls when player reaches half the screen height
-
             if self.background.get_height() - self.hero.sprite.rect.centery > WINDOW_HEIGHT / 2:
                 self.scrollspeed = self.level.text + 1
 
@@ -212,7 +210,6 @@ class PyGame(object):
 
             pygame.display.flip()
             self.vp[1] += self.scrollspeed
-
             self.vp[1] = min(self.vp[1], 0)
 
 if __name__ == '__main__':
