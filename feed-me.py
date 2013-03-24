@@ -134,13 +134,6 @@ class PyGame(object):
         self.background_width, self.background_height = self.background.get_size()
         self.background.fill(pygame.Color('skyblue'))
 
-    def dead(self):
-        self.screen.fill((0, 0, 255))
-        self.scrollspeed = 0
-        pygame.display.flip()
-        pygame.time.wait(2000)
-        self.scoreboard.items.remove(self.icons[self.round - 1])
-        self.new_round()
 
     def play(self):
         """Start PyGame program.
@@ -192,7 +185,11 @@ class PyGame(object):
 
             # If you die
             if self.hero.sprite.rect.centery - -self.vp[1] > self.screen_height:
-                self.dead()
+                self.splashscreen.dead()
+                self.scrollspeed = 0
+                self.scoreboard.items.remove(self.icons[self.round - 1])
+                self.new_round()
+
             # Draw the scene
             self.screen.fill((0, 0, 0))
             self.background.fill(pygame.Color('#87CEFA'))
