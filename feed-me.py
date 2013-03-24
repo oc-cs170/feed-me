@@ -11,7 +11,7 @@ from giant import Giant
 from plate import Plate
 from food import Food
 from scoreboard import ScoreBoard
-from splashScreen import splashScreen
+from splashScreen import SplashScreen
 
 
 WINDOW_TITLE = 'Feed-Me'
@@ -35,6 +35,8 @@ class PyGame(object):
         self.make_background()
 
         self.scoreboard = ScoreBoard(self.screen)
+        self.splashscreen = SplashScreen()
+
 
         self.hero = pygame.sprite.GroupSingle(Hero(self.background))
         self.giant = pygame.sprite.GroupSingle(Giant(self.background))
@@ -65,6 +67,8 @@ class PyGame(object):
                 self.progress_bar = instance
             elif instance.prefix == 'p_hero':
                 self.p_hero = instance
+            elif instance.prefix == 'goalbar':
+                self.goalbar = instance
 
 
         # Use a clock to control frame rate
@@ -127,8 +131,8 @@ class PyGame(object):
 
             plate_yloc -= random.randint(40, 120)
 
+        self.high_score = sum(food.points for food in self.foods.sprites())
         self.round = 0
-
         self.new_round()
 
     def new_round(self):
@@ -146,20 +150,12 @@ class PyGame(object):
         self.background_width, self.background_height = self.background.get_size()
         self.background.fill(pygame.Color('skyblue'))
 
-    def dead(self):
-        self.screen.fill((0, 0, 255))
-        self.scrollspeed = 0
-        pygame.display.flip()
-        pygame.time.wait(2000)
-        self.scoreboard.items.remove(self.icons[self.round - 1])
-        self.new_round()
 
     def play(self):
         """Start PyGame program.
         """
-
+        self.splashscreen.draw()
         self.new_game()
-        splashScreen(self.screen).intro_splash()
         running = True
         while running:
             self.clock.tick(FPS)  # Max frames per second
@@ -212,14 +208,19 @@ class PyGame(object):
 
             # If you die
             if self.hero.sprite.rect.centery - -self.vp[1] > self.screen_height:
-                self.bsound.stop()
-                self.die.play(loops=0, maxtime=0, fade_ms= 0)
-                self.die.set_volume(1.0)
-                self.dead()
+                # self.bsound.stop()
+                # self.die.play(loops=0, maxtime=0, fade_ms= 0)
+                # self.die.set_volume(1.0)
+                # self.dead()
                 
-                #restart music
-                self.bsound.play()
+                # #restart music
+                # self.bsound.play()
 
+
+                self.splashscreen.dead()
+                self.scrollspeed = 0
+                self.scoreboard.items.remove(self.icons[self.round - 1])
+                self.new_round()
 
             # Draw the scene
             self.screen.fill((0, 0, 0))
@@ -237,6 +238,8 @@ class PyGame(object):
             # Do the scoreboard
 
             self.p_hero.rect.x = -12 + (((self.background_height - self.hero.sprite.rect.y) * self.progress_bar.rect.width) / self.distance)
+            self.goalbar.image = pygame.Surface(((self.score.text * 100 / (self.high_score * .75)), 16))
+            self.goalbar.image.fill((255, 0, 0))
             self.scoreboard.update()
             self.scoreboard.draw(self.screen)
 

@@ -86,8 +86,10 @@ class ScoreBoard(pygame.sprite.Group):
         self.level1 = 1
         
         # Goal Meter is created here
-        self.health = pygame.Surface((100, 16))
-        pygame.draw.rect(self.health, (255, 255, 255), self.health.get_rect())
+        self.goal_edge = pygame.Surface((100, 18))
+        pygame.draw.rect(self.goal_edge, (0, 0, 0), self.goal_edge.get_rect(), 5)
+        self.goal_inner = pygame.Surface((125, 16))
+        self.goal_inner.set_colorkey((0, 0, 0))
 
         # Image of hero for progress bar is created here
         image = pygame.image.load('PlanetCute PNG/Character Cat Girl.png').convert_alpha()
@@ -108,7 +110,8 @@ class ScoreBoard(pygame.sprite.Group):
                            SBTextItem(font, 'Goal: ', location=(640, 3)),
                            SBImageItem(font, self.progress, location=(15, 30), prefix='progress'),
                            SBImageItem(font, self.p_hero, location=(12, 12), prefix='p_hero'),
-                           SBImageItem(font, self.health, location=(690, 5)),
+                           SBImageItem(font, self.goal_edge, location=(690, 5)),
+                           SBImageItem(font, self.goal_inner, location=(690, 5), prefix='goalbar'),
                            SBImageItem(font, self.hero, location=(535, -15), prefix='icon'),
                            SBImageItem(font, self.hero, location=(565, -15), prefix='icon'),
                            SBImageItem(font, self.hero, location=(595, -15), prefix='icon'))
